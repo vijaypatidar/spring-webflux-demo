@@ -13,6 +13,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -20,6 +21,7 @@ import java.util.UUID;
 @Service
 public class OtpServiceImpl extends AbstractMongoService implements OtpService {
     private final NotificationService notificationService;
+    private final Random random = new Random();
 
     @Override
     public Mono<Otp> sendOtp(User user) {
@@ -28,7 +30,7 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
                 .id(optRequestId)
                 .username(user.getUsername())
                 .validUpTo(new Date(new Date().getTime() + 10 * 60 * 1000))
-                .otp(109040).build();
+                .otp(random.nextInt(900000) + 100000).build();
 
         return reactiveMongoTemplate.save(otp).flatMap(otp1 -> {
             String body = otp1.getOtp() + " is your your Cool spring OTP. Do not share it with anyone.";

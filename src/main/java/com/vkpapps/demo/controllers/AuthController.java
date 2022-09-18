@@ -2,11 +2,8 @@ package com.vkpapps.demo.controllers;
 
 import com.vkpapps.demo.dtos.auth.*;
 import com.vkpapps.demo.security.jwt.JwtTokenProvider;
-import com.vkpapps.demo.services.notification.Notification;
-import com.vkpapps.demo.services.notification.NotificationService;
 import com.vkpapps.demo.services.otp.OtpService;
 import com.vkpapps.demo.services.user.UserService;
-import com.vkpapps.demo.validators.Validator;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -21,8 +18,6 @@ import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.UUID;
 
 @RestController
 @RequiredArgsConstructor
@@ -54,11 +49,11 @@ public class AuthController extends AbstractController{
     }
 
     @PostMapping("/verify-otp")
-    public Mono<AuthResponseDto> verifyOtpAndLogin(@Valid @RequestBody VerifyOtpRequestDto verifyOtpRequestDto) {
+    public Mono<ResponseEntity<AuthResponseDto>> verifyOtpAndLogin(@Valid @RequestBody VerifyOtpRequestDto verifyOtpRequestDto) {
         log.info("Verifying otp for OtpRequestId:"+verifyOtpRequestDto.getOtpRequestId()+".");
         return otpService.verifyOtp(verifyOtpRequestDto.getOtpRequestId(), verifyOtpRequestDto.getOtp())
                 .flatMap(otp -> userService.getUsername(otp.getUsername()))
-                .flatMap(user -> Mono.just(new AuthResponseDto(tokenProvider.createToken(user),null)));
+                .flatMap(user -> Mono.just(prepareTokenResponse(tokenProvider.createToken(user))));
     }
 
     private ResponseEntity<AuthResponseDto> prepareTokenResponse(String jwt) {
