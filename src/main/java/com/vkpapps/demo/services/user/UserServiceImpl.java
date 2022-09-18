@@ -1,27 +1,23 @@
 package com.vkpapps.demo.services.user;
 
-import com.vkpapps.demo.exceptions.ValidationException;
 import com.vkpapps.demo.models.User;
+import com.vkpapps.demo.services.AbstractMongoService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
 @Service
 @RequiredArgsConstructor
-public class UserServiceImpl implements UserService {
+@Slf4j
+public class UserServiceImpl extends AbstractMongoService implements UserService {
     private final PasswordEncoder passwordEncoder;
+
     @Override
     public Mono<User> getUsername(String userId) {
-
-        if ("vijaypatidar".equals(userId)){
-            User user = new User();
-            user.setUserId(userId);
-            user.setEmail("vijay@gmail.com");
-            user.setPassword(passwordEncoder.encode("12345678"));
-            user.setRole("ADMIN");
-            return Mono.just(user);
-        }
-        return Mono.error(new ValidationException("Username "+userId+" not found"));
+        return reactiveMongoTemplate.findOne(Query.query(Criteria.where("username").is(userId)), User.class);
     }
 }

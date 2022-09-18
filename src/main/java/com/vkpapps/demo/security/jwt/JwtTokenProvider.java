@@ -60,7 +60,7 @@ public class JwtTokenProvider {
     public String createToken(com.vkpapps.demo.models.User user) {
         Date now = new Date();
         Date validity = new Date(now.getTime() + this.jwtProperties.getValidityInMs());
-        Claims claims = Jwts.claims().setSubject(user.getUserId());
+        Claims claims = Jwts.claims().setSubject(user.getUsername());
         claims.put(AUTHORITIES_KEY, user.getRole());
         return Jwts.builder()
                 .setClaims(claims)

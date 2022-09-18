@@ -1,12 +1,8 @@
 package com.vkpapps.demo.models;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.util.StackLocatorUtil;
-
-import java.util.Map;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class Response<T> {

@@ -48,7 +48,7 @@ public class MyUserDetailService implements ReactiveUserDetailsService {
 
         @Override
         public String getUsername() {
-            return user.getUserId();
+            return user.getUsername();
         }
 
         @Override

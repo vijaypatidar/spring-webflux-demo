@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public class ValidationException extends Exception{
-    private List<String> messages;
+    private final List<String> messages;
 
     public ValidationException(@NotNull List<String> messages){
         this.messages = messages;
