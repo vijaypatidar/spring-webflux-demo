@@ -1,0 +1,15 @@
+spring:
+  data:
+    mongodb:
+      uri: ${MONGO_URI:mongodb://root:example@localhost:27017/}
+      database: ${MONGO_DB_NAME:digital}
+jwt:
+  secretKey: ${JWT_SCRET_KEY:ecf1222c-88fd-47f3-988f-bdd78bade1ad}
+server:
+  port: ${PORT:8080}
+
+elastic:
+  hostname: 127.0.0.1
+#  username: elastic
+#  password: changeme
+

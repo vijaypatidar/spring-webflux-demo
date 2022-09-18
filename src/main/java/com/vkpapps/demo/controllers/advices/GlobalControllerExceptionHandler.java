@@ -48,6 +48,6 @@ public class GlobalControllerExceptionHandler {
         }
         errors.put("stacktrace",ex.getStackTrace());
 
-        return new ResponseDto().setError(errors);
+        return new ResponseDto().setSuccess(false).setError(errors);
     }
 }
