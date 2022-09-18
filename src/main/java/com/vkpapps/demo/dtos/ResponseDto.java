@@ -1,39 +1,39 @@
-package com.vkpapps.demo.models;
+package com.vkpapps.demo.dtos;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.util.StackLocatorUtil;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class Response<T> {
+public class ResponseDto<T> {
     boolean success;
     T       data;
     Object  error;
     String  warning;
 
-    public Response() {
+    public ResponseDto() {
     }
 
 
-    public static Response success() {
+    public static ResponseDto success() {
         return success(null);
     }
 
-    public static <T> Response success(T data) {
-        return new Response<T>().setSuccess(true).setData(data);
+    public static <T> ResponseDto success(T data) {
+        return new ResponseDto<T>().setSuccess(true).setData(data);
     }
 
-    public static Response error(Throwable e) {
+    public static ResponseDto error(Throwable e) {
         LogManager.getLogger(StackLocatorUtil.getCallerClass(2)).info(e);
-        return new Response().setSuccess(false).setError(e);
+        return new ResponseDto().setSuccess(false).setError(e);
     }
 
-    public static Response error(Object e) {
-        return new Response().setSuccess(false).setError(e);
+    public static ResponseDto error(Object e) {
+        return new ResponseDto().setSuccess(false).setError(e);
     }
 
-    public static Response error(String e) {
-        return new Response().setSuccess(false).setError(e);
+    public static ResponseDto error(String e) {
+        return new ResponseDto().setSuccess(false).setError(e);
     }
 
     /* get success */
@@ -42,7 +42,7 @@ public class Response<T> {
     }
 
     /* set success */
-    public Response setSuccess(boolean success) {
+    public ResponseDto<T> setSuccess(boolean success) {
         this.success = success;
         return this;
     }
@@ -53,7 +53,7 @@ public class Response<T> {
     }
 
     /* set data */
-    public Response setData(T data) {
+    public ResponseDto<T> setData(T data) {
         this.data = data;
         return this;
     }
@@ -64,7 +64,7 @@ public class Response<T> {
     }
 
     /* set error */
-    public Response setError(Object error) {
+    public ResponseDto<T> setError(Object error) {
         this.error = error;
         return this;
     }

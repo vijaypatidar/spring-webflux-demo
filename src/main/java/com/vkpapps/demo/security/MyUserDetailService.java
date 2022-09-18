@@ -32,7 +32,6 @@ public class MyUserDetailService implements ReactiveUserDetailsService {
         private final User user;
 
         public MyUserDetail(User user) {
-            log.info(user.toString());
             this.user = user;
         }
 

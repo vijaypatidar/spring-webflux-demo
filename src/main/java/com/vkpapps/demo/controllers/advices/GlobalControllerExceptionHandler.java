@@ -1,7 +1,7 @@
 package com.vkpapps.demo.controllers.advices;
 
 import com.vkpapps.demo.exceptions.ValidationException;
-import com.vkpapps.demo.models.Response;
+import com.vkpapps.demo.dtos.ResponseDto;
 import org.springframework.core.convert.ConversionFailedException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +34,7 @@ public class GlobalControllerExceptionHandler {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
-    public Response handleValidationExceptions(
+    public ResponseDto handleValidationExceptions(
             Exception ex) {
         Map<String, Object> errors = new HashMap<>();
         if (ex instanceof WebExchangeBindException){
@@ -48,6 +48,6 @@ public class GlobalControllerExceptionHandler {
         }
         errors.put("stacktrace",ex.getStackTrace());
 
-        return new Response().setError(errors);
+        return new ResponseDto().setError(errors);
     }
 }

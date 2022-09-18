@@ -9,7 +9,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/health")
-public class HealthController {
+public class HealthController extends AbstractController{
     @Data @AllArgsConstructor
     static class Health{
         private String serverId;

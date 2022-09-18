@@ -1,5 +1,6 @@
 package com.vkpapps.demo.controllers;
 
+import com.vkpapps.demo.dtos.UserDto;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.user.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -15,10 +16,10 @@ import java.security.Principal;
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "JWT")
-public class UserController {
+public class UserController extends AbstractController {
     private final UserService userService;
     @GetMapping
-    public Mono<User> getCurrentLogged(Principal principal){
-        return userService.getUsername(principal.getName());
+    public Mono<UserDto> getCurrentLogged(Principal principal){
+        return userService.getUsername(principal.getName()).flatMap(user -> Mono.just(modelMapper.map(user,UserDto.class)));
     }
 }
