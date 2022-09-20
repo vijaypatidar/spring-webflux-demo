@@ -15,10 +15,17 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .components(
                         new Components()
-                                .addSecuritySchemes("JWT",
-                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("Bearer")))
-                .info(new Info().title("Cool Webflux API").version("appVersion")
-                        .license(new License().name("Apache 2.0").url("http://localhost:3000")));
+                                .addSecuritySchemes(
+                                        "JWT",
+                                        new SecurityScheme().type(SecurityScheme.Type.HTTP).scheme("Bearer"))
+                )
+                .info(
+                        new Info()
+                                .title("Cool Webflux API")
+                                .version("appVersion")
+                                .license(new License().name("Apache 2.0")
+                                        .url("http://localhost:3000"))
+                );
     }
 
 }

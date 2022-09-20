@@ -17,6 +17,6 @@ public class HealthController extends AbstractController{
 
     @PostMapping
     public Mono<Health> check(){
-        return Mono.just(new Health("vijay"));
+        return Mono.just(new Health("cool-webflux"));
     }
 }

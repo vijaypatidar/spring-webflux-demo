@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.redis.core.ReactiveValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
@@ -15,9 +16,12 @@ import reactor.core.publisher.Mono;
 @Slf4j
 public class UserServiceImpl extends AbstractMongoService implements UserService {
     private final PasswordEncoder passwordEncoder;
+    private final ReactiveValueOperations<String, User> redisTemplate;
 
     @Override
     public Mono<User> getUsername(String userId) {
-        return reactiveMongoTemplate.findOne(Query.query(Criteria.where("username").is(userId)), User.class);
+        return redisTemplate.get(userId)
+                .switchIfEmpty(reactiveMongoTemplate.findOne(Query.query(Criteria.where("username").is(userId)), User.class)
+                .flatMap(user -> redisTemplate.set(userId, user).thenReturn(user)));
     }
 }

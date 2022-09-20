@@ -24,10 +24,7 @@ public class SnsNotificationService implements NotificationService {
                         .message(objectMapper.writeValueAsString(notification))
                         .topicArn(arn)
                         .build();
-                return Mono.fromFuture(snsAsyncClient.publish(request)).flatMap(publishResponse -> {
-
-                    return Mono.empty();
-                });
+                return Mono.fromFuture(snsAsyncClient.publish(request)).flatMap(publishResponse -> Mono.empty());
             } catch (JsonProcessingException e) {
                 return Mono.error(e);
             }

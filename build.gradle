@@ -23,7 +23,7 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'co.elastic.clients:elasticsearch-java:8.4.1'
 	implementation 'software.amazon.awssdk:sns:2.17.271'
-
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis-reactive'
 	implementation 'jakarta.json:jakarta.json-api:2.1.1'
 	implementation 'org.springdoc:springdoc-openapi-webflux-ui:1.6.11'
 	implementation 'org.springframework.boot:spring-boot-starter-security'

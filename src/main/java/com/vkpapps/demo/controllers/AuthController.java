@@ -39,7 +39,7 @@ public class AuthController extends AbstractController{
                 .map(this::prepareTokenResponse);
     }
 
-    @PostMapping("/sent-otp")
+    @PostMapping("/send-otp")
     public Mono<OtpResponseDto> requestOtpForLogin(@Valid @RequestBody OtpRequestDto otpRequestDto) {
         log.info("Username:"+otpRequestDto.getUsername()+" requested for otp.");
         return userService
