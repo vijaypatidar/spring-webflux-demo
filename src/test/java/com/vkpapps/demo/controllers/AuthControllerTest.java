@@ -150,7 +150,7 @@ class AuthControllerTest extends AbstractControllerTest {
     private Otp getOtp(String username) {
         return Otp.builder()
                 .id(UUID.randomUUID().toString())
-                .otp(123456)
+                .otpPin(123456)
                 .username(username)
                 .validUpTo(new Date(new Date().getTime() + 10 * 60 * 10000))
                 .build();

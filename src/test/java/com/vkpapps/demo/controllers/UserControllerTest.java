@@ -30,7 +30,7 @@ class UserControllerTest extends AbstractControllerTest{
                 .expectBody()
                 .jsonPath("$.username").isEqualTo(user.getUsername())
                 .jsonPath("$.email").isEqualTo(user.getEmail())
-                .jsonPath("$.role").isEqualTo(user.getRole());
+                .jsonPath("$.roles").isEqualTo(user.getRoles().get(0));
 
         Mockito.verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
     }

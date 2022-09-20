@@ -1,11 +1,12 @@
 package com.vkpapps.demo.controllers;
 
+import com.vkpapps.demo.controllers.helpers.ModelToDtoConverter;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.UUID;
 
-public abstract class AbstractController implements ModelToDtoConverter{
+public abstract class AbstractController implements ModelToDtoConverter {
 
     @Autowired
     protected ModelMapper modelMapper;

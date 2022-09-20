@@ -2,6 +2,7 @@ package com.vkpapps.demo.controllers.advices;
 
 import com.vkpapps.demo.exceptions.ValidationException;
 import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.Map;
 
 @RestControllerAdvice
+@Slf4j
 public class GlobalControllerExceptionHandler {
 
     @Value("${mode:dev}")
@@ -31,6 +33,7 @@ public class GlobalControllerExceptionHandler {
         if ("dev".equals(mode)) {
             response.setStackTraces(ex.getStackTrace());
         }
+        log.error(ex.getMessage(),ex);
         return new ResponseEntity<>(response, HttpStatus.FORBIDDEN);
     }
 
@@ -38,7 +41,10 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleValidationExceptions(
             Exception ex) {
+        return buildErrorResponse(ex);
+    }
 
+    private ErrorResponse buildErrorResponse(Exception ex){
         List<String> messages = new LinkedList<>();
         ErrorResponse errorResponse = new ErrorResponse();
         errorResponse.setMessages(messages);
@@ -49,7 +55,7 @@ public class GlobalControllerExceptionHandler {
 
         if (ex instanceof WebExchangeBindException) {
             Map<String, String> invalidFields = new HashMap<>();
-            ((WebExchangeBindException) ex).getBindingResult().getAllErrors().forEach((error) -> {
+            ((WebExchangeBindException) ex).getBindingResult().getAllErrors().forEach(error -> {
                 String fieldName = ((FieldError) error).getField();
                 String errorMessage = error.getDefaultMessage();
                 invalidFields.put(fieldName, errorMessage);
@@ -60,9 +66,8 @@ public class GlobalControllerExceptionHandler {
             messages.addAll(((ValidationException) ex).getMessages());
         } else {
             messages.add(ex.getMessage());
+            log.error(ex.getMessage(),ex);
         }
-
-
         return errorResponse;
     }
 

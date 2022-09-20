@@ -11,6 +11,7 @@ import reactor.core.publisher.Mono;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -37,7 +38,7 @@ public class MyUserDetailService implements ReactiveUserDetailsService {
 
         @Override
         public Collection<? extends GrantedAuthority> getAuthorities() {
-            return List.of((GrantedAuthority) user::getRole);
+            return user.getRoles().stream().map(role-> (GrantedAuthority) () -> role).collect(Collectors.toList());
         }
 
         @Override

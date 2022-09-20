@@ -32,6 +32,8 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - mongo:/data
 
   mongo-express:
     image: mongo-express
@@ -53,6 +55,8 @@ services:
 
 volumes:
   redis:
+    driver: local
+  mongo:
     driver: local
 
 networks:

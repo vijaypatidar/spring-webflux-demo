@@ -15,7 +15,7 @@ import java.util.Date;
 public class Otp {
     @Id
     private String id;
-    private int otp;
+    private int otpPin;
     private String username;
     private Date validUpTo;
 }

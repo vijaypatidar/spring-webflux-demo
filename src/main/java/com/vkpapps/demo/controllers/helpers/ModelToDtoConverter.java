@@ -1,4 +1,4 @@
-package com.vkpapps.demo.controllers;
+package com.vkpapps.demo.controllers.helpers;
 
 import com.vkpapps.demo.dtos.UserDto;
 import com.vkpapps.demo.models.User;

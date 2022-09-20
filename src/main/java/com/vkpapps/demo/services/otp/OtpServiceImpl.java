@@ -30,10 +30,10 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
                 .id(optRequestId)
                 .username(user.getUsername())
                 .validUpTo(new Date(new Date().getTime() + 10 * 60 * 1000))
-                .otp(random.nextInt(900000) + 100000).build();
+                .otpPin(random.nextInt(900000) + 100000).build();
 
         return reactiveMongoTemplate.save(otp).flatMap(otp1 -> {
-            String body = otp1.getOtp() + " is your your Cool spring OTP. Do not share it with anyone.";
+            String body = otp1.getOtpPin() + " is your your Cool spring OTP. Do not share it with anyone.";
             Notification notification = Notification.builder()
                     .emails(List.of(user.getEmail()))
                     .body(body)
@@ -47,7 +47,7 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
         return reactiveMongoTemplate.findById(requestId, Otp.class)
                 .flatMap(otp1 -> {
                     long currentTime = new Date().getTime();
-                    if (otp != otp1.getOtp()) {
+                    if (otp != otp1.getOtpPin()) {
                         return Mono.error(new ValidationException("Invalid otp."));
                     } else if (currentTime > otp1.getValidUpTo().getTime()) {
                         return Mono.error(new ValidationException("Otp is expired."));

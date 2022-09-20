@@ -7,6 +7,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -17,6 +18,6 @@ public class User implements Serializable {
     private String username;
     private String password;
     private String email;
-    private String role;
+    private List<String> roles;
     private boolean disabled;
 }
