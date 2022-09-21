@@ -9,7 +9,10 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.ReactiveValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -23,5 +26,10 @@ public class UserServiceImpl extends AbstractMongoService implements UserService
         return redisTemplate.get(userId)
                 .switchIfEmpty(reactiveMongoTemplate.findOne(Query.query(Criteria.where("username").is(userId)), User.class)
                 .flatMap(user -> redisTemplate.set(userId, user).thenReturn(user)));
+    }
+
+    @Override
+    public Flux<User> getUsers() {
+        return this.reactiveMongoTemplate.findAll(User.class);
     }
 }
