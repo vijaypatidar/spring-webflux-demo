@@ -7,6 +7,8 @@ import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.ContentDisposition;
+import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @SpringBootTest
@@ -48,5 +50,26 @@ class UserControllerTest extends AbstractControllerTest{
                 .expectStatus().isUnauthorized();
 
         Mockito.verify(userService, Mockito.times(0)).getUsername("vijaypatidar");
+    }
+
+    @Test
+    void verifyExport() {
+        User user = getUser1();
+        String jwtToken = getJwtToken(user);
+        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));
+
+        webClient.get()
+                .uri("/api/users/export/csv")
+                .header("Authorization","Bearer "+jwtToken)
+                .exchange()
+                .expectStatus().isOk()
+                .expectHeader().contentDisposition(ContentDisposition
+                        .attachment()
+                        .filename("users.csv")
+                        .build());
+
+        Mockito.verify(userService, Mockito.times(1)).getUsers();
+
     }
 }
