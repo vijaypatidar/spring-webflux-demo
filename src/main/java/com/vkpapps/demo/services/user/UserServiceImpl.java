@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @Service
@@ -30,6 +31,11 @@ public class UserServiceImpl extends AbstractMongoService implements UserService
 
     @Override
     public Flux<User> getUsers() {
-        return this.reactiveMongoTemplate.findAll(User.class);
+        List<User> users = new LinkedList<>();
+        for (int i=0;i<1000;i++){
+            users.add(new User("vijay","vijay@email","dad",List.of("role"+i),false));
+        }
+        return Flux.fromIterable(users);
+//        return this.reactiveMongoTemplate.findAll(User.class);
     }
 }

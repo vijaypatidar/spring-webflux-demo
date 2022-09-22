@@ -1,5 +1,8 @@
 package com.vkpapps.demo.exporters;
 
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.http.ContentDisposition;
@@ -11,27 +14,39 @@ import java.util.List;
 
 @Slf4j
 public abstract class Exporter {
-    private ServerWebExchange serverWebExchange = null;
-    private String fileName;
-    private Mono<List<String>> headers;
-    private Flux<List<String>> rows;
+    private ExportDataSource dataSource;
 
     protected Exporter() {
     }
 
 
-    protected Mono<Void> processStart() {
+    protected Mono<Void> preProcessStart() {
+        return Mono.empty();
+    }
+
+    private Mono<Void> processStart() {
         log.info("Exporter::processStart");
-        if (this.serverWebExchange == null)
+        if (this.inValidDataSource(dataSource))
             return Mono.error(new RuntimeException("ServerWebExchange must be initialized before starting export."));
-        serverWebExchange.getResponse().getHeaders().setContentDisposition(
+        dataSource.getServerWebExchange().getResponse().getHeaders().setContentDisposition(
                 ContentDisposition
                         .attachment()
-                        .filename(fileName + "." + getExtension())
+                        .filename(dataSource.getFileName() + "." + getExtension())
                         .build()
         );
-        Flux<Mono<DataBuffer>> flux = processHeaders(getHeader()).mergeWith(processRows(getRows())).flatMap(db -> Mono.just(Mono.just(db)));
-        return this.serverWebExchange.getResponse().writeAndFlushWith(flux);
+        Flux<Mono<DataBuffer>> flux = processHeaders(getHeader())
+                .mergeWith(processRows(getRows()))
+                .mergeWith(processComplete())
+                .flatMap(db -> Mono.just(Mono.just(db)));
+        return this.dataSource.getServerWebExchange().getResponse().writeAndFlushWith(flux);
+    }
+
+    private boolean inValidDataSource(ExportDataSource dataSource) {
+        return dataSource == null
+                || dataSource.getRows() == null
+                || dataSource.getFileName() == null
+                || dataSource.getServerWebExchange() == null
+                || dataSource.getHeaders() == null;
     }
 
     protected abstract Mono<DataBuffer> processHeaders(Mono<List<String>> headersMono);
@@ -40,47 +55,45 @@ public abstract class Exporter {
 
     protected abstract String getExtension();
 
-    protected Mono<Void> processComplete() {
-        log.info("Exporter::processComplete");
-        return Mono.create(voidMonoSink -> {
-            log.info("Exporter::processComplete::Mono");
-            voidMonoSink.success();
-        });
+    protected Mono<DataBuffer> processComplete() {
+        return Mono.empty();
     }
 
 
 
     protected Mono<DataBuffer> buildDataBuffer(byte[] data) {
-        return Mono.just(this.serverWebExchange.getResponse().bufferFactory().wrap(data));
+        return Mono.just(this.getDataSource().getServerWebExchange().getResponse().bufferFactory().wrap(data));
     }
 
     public Mono<Void> export() {
-        return processStart()
-                .and(processComplete());
-    }
-
-    public void setServerWebExchange(ServerWebExchange serverWebExchange) {
-        this.serverWebExchange = serverWebExchange;
-    }
-
-    public void setFileName(String fileName) {
-        this.fileName = fileName;
+        return preProcessStart().then(processStart());
     }
 
 
-    protected Mono<List<String>> getHeader(){
-        return this.headers;
+    protected Mono<List<String>> getHeader() {
+        return this.dataSource.getHeaders();
     }
 
-    protected Flux<List<String>> getRows(){
-        return this.rows;
+    protected Flux<List<String>> getRows() {
+        return this.dataSource.getRows();
     }
 
-    public void setHeaders(Mono<List<String>> headers) {
-        this.headers = headers;
+    protected ExportDataSource getDataSource() {
+        return this.dataSource;
     }
 
-    public void setRows(Flux<List<String>> rows) {
-        this.rows = rows;
+    public void setDataSource(ExportDataSource dataSource) {
+        this.dataSource = dataSource;
+    }
+
+    @Getter
+    @Setter
+    @Builder
+    public static class ExportDataSource {
+        private ServerWebExchange serverWebExchange;
+        private String fileName;
+        private Mono<List<String>> headers;
+        private Flux<List<String>> rows;
+
     }
 }

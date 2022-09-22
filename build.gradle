@@ -33,6 +33,7 @@ dependencies {
 	implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.55'
 	implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.7.3'
 	implementation 'org.modelmapper:modelmapper:3.1.0'
+	implementation 'org.apache.poi:poi:5.2.2'
 
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'

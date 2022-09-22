@@ -43,10 +43,14 @@ public class UserController extends AbstractController {
     public Mono<Void> export(ServerWebExchange webExchange, @PathVariable String format) {
         try {
             Exporter exporter = this.applicationContext.getBean(format.toUpperCase() + "_EXPORTER", Exporter.class);
-            exporter.setServerWebExchange(webExchange);
-            exporter.setFileName("users");
-            exporter.setHeaders(Mono.just(List.of("Name", "Email", "Roles")));
-            exporter.setRows(userService.getUsers().flatMap(user -> Mono.just(List.of(user.getUsername(), user.getEmail(), String.join("|", user.getRoles())))));
+            Exporter.ExportDataSource dataSource = Exporter.ExportDataSource.builder()
+                    .serverWebExchange(webExchange)
+                    .headers(Mono.just(List.of("Name", "Email", "Roles")))
+                    .rows(userService.getUsers().flatMap(user -> Mono.just(List.of(user.getUsername(), user.getEmail(), String.join("|", user.getRoles())))))
+                    .fileName("users")
+                    .build();
+
+            exporter.setDataSource(dataSource);
             return exporter.export();
         } catch (NoSuchBeanDefinitionException e) {
             return Mono.error(new ValidationException("Format:" + format + " does not supported"));
