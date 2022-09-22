@@ -79,12 +79,13 @@ public class XLSExporter extends Exporter {
                         .bufferFactory()
                         .wrap(outputStream.toByteArray())
                 );
+                workbook.close();
+                outputStream.close();
             } catch (IOException e) {
                 sink.error(e);
             }
         });
     }
-
     @Override
     protected String getExtension() {
         return "xls";
