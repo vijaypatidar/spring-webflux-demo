@@ -7,9 +7,11 @@ jwt:
   secretKey: ${JWT_SCRET_KEY:ecf1222c-88fd-47f3-988f-bdd78bade1ad}
 server:
   port: ${PORT:8080}
-
+  ssl:
+    key-store: classpath:keystore.jks
+    key-store-password: changeme
 elastic:
   hostname: 127.0.0.1
 #  username: elastic
-#  password: changeme
 
+#  password: changeme
