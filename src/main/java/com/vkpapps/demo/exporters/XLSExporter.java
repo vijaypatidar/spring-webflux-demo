@@ -9,6 +9,7 @@ import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,7 +18,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
-@Component(value = "XLS_EXPORTER")
+@Service(value = "XLS_EXPORTER")
 @Slf4j
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class XLSExporter extends Exporter {
