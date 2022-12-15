@@ -6,5 +6,5 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class OtpResponseDto {
-   private String otpRequestId;
+    private String otpRequestId;
 }

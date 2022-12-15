@@ -13,12 +13,12 @@ import reactor.core.publisher.Mono;
 
 @SpringBootTest
 @AutoConfigureWebTestClient()
-class UserControllerTest extends AbstractControllerTest{
+class UserControllerTest extends AbstractControllerTest {
     @MockBean
     private UserService userService;
 
     @Test
-    void testGetUserInfo(){
+    void testGetUserInfo() {
 
         User user = getUser1();
         String jwtToken = getJwtToken(user);
@@ -26,7 +26,7 @@ class UserControllerTest extends AbstractControllerTest{
 
         webClient.get()
                 .uri("/api/users")
-                .header("Authorization","Bearer "+jwtToken)
+                .header("Authorization", "Bearer " + jwtToken)
                 .exchange()
                 .expectStatus().isOk()
                 .expectBody()
@@ -38,14 +38,14 @@ class UserControllerTest extends AbstractControllerTest{
     }
 
     @Test
-    void testGetUserInfoWithInvalidJwtToken(){
+    void testGetUserInfoWithInvalidJwtToken() {
 
         User user = getUser1();
         Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.get()
                 .uri("/api/users")
-                .header("Authorization","Bearer "+"fjsdfhsdcsdfsldhfsdfjssvks")
+                .header("Authorization", "Bearer " + "fjsdfhsdcsdfsldhfsdfjssvks")
                 .exchange()
                 .expectStatus().isUnauthorized();
 
@@ -61,7 +61,7 @@ class UserControllerTest extends AbstractControllerTest{
 
         webClient.get()
                 .uri("/api/users/export/csv")
-                .header("Authorization","Bearer "+jwtToken)
+                .header("Authorization", "Bearer " + jwtToken)
                 .exchange()
                 .expectStatus().isOk()
                 .expectHeader().contentDisposition(ContentDisposition

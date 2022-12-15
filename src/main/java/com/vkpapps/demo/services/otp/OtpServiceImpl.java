@@ -6,22 +6,27 @@ import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.AbstractMongoService;
 import com.vkpapps.demo.services.notification.Notification;
 import com.vkpapps.demo.services.notification.NotificationService;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
-
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.UUID;
+import lombok.NonNull;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
+import org.springframework.stereotype.Service;
+import reactor.core.publisher.Mono;
 
 @RequiredArgsConstructor
 @Slf4j
 @Service
 public class OtpServiceImpl extends AbstractMongoService implements OtpService {
+    @NonNull
     private final NotificationService notificationService;
+    @NonNull
     private final Random random = new Random();
+    @NonNull
+    private final ReactiveMongoTemplate mongoTemplate;
 
     @Override
     public Mono<Otp> sendOtp(User user) {
@@ -32,7 +37,7 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
                 .validUpTo(new Date(new Date().getTime() + 10 * 60 * 1000))
                 .otpPin(random.nextInt(900000) + 100000).build();
 
-        return reactiveMongoTemplate.save(otp).flatMap(otp1 -> {
+        return getMongoTemplate().save(otp).flatMap(otp1 -> {
             String body = otp1.getOtpPin() + " is your your Cool spring OTP. Do not share it with anyone.";
             Notification notification = Notification.builder()
                     .emails(List.of(user.getEmail()))
@@ -44,7 +49,7 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
 
     @Override
     public Mono<Otp> verifyOtp(String requestId, int otp) {
-        return reactiveMongoTemplate.findById(requestId, Otp.class)
+        return getMongoTemplate().findById(requestId, Otp.class)
                 .flatMap(otp1 -> {
                     long currentTime = new Date().getTime();
                     if (otp != otp1.getOtpPin()) {
@@ -52,8 +57,13 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
                     } else if (currentTime > otp1.getValidUpTo().getTime()) {
                         return Mono.error(new ValidationException("Otp is expired."));
                     } else {
-                        return reactiveMongoTemplate.remove(otp1).thenReturn(otp1);
+                        return getMongoTemplate().remove(otp1).thenReturn(otp1);
                     }
                 });
+    }
+
+    @Override
+    protected @NonNull ReactiveMongoTemplate getMongoTemplate() {
+        return this.mongoTemplate;
     }
 }

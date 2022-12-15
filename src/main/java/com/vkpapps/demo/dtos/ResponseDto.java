@@ -7,9 +7,9 @@ import org.apache.logging.log4j.util.StackLocatorUtil;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class ResponseDto<T> {
     boolean success;
-    T       data;
-    Object  error;
-    String  warning;
+    T data;
+    Object error;
+    String warning;
 
 
     public ResponseDto() {

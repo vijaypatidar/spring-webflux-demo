@@ -4,6 +4,7 @@ import com.vkpapps.demo.dtos.auth.*;
 import com.vkpapps.demo.security.jwt.JwtTokenProvider;
 import com.vkpapps.demo.services.otp.OtpService;
 import com.vkpapps.demo.services.user.UserService;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
@@ -17,13 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.core.publisher.Mono;
 
-import javax.validation.Valid;
-
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/auth")
 @Slf4j
-public class AuthController extends AbstractController{
+public class AuthController extends AbstractController {
     private final JwtTokenProvider tokenProvider;
     private final ReactiveAuthenticationManager authenticationManager;
     private final UserService userService;
@@ -41,7 +40,7 @@ public class AuthController extends AbstractController{
 
     @PostMapping("/send-otp")
     public Mono<OtpResponseDto> requestOtpForLogin(@Valid @RequestBody OtpRequestDto otpRequestDto) {
-        log.info("Username:"+otpRequestDto.getUsername()+" requested for otp.");
+        log.info("Username:" + otpRequestDto.getUsername() + " requested for otp.");
         return userService
                 .getUsername(otpRequestDto.getUsername())
                 .flatMap(otpService::sendOtp)
@@ -50,7 +49,7 @@ public class AuthController extends AbstractController{
 
     @PostMapping("/verify-otp")
     public Mono<ResponseEntity<AuthResponseDto>> verifyOtpAndLogin(@Valid @RequestBody VerifyOtpRequestDto verifyOtpRequestDto) {
-        log.info("Verifying otp for OtpRequestId:"+verifyOtpRequestDto.getOtpRequestId()+".");
+        log.info("Verifying otp for OtpRequestId:" + verifyOtpRequestDto.getOtpRequestId() + ".");
         return otpService.verifyOtp(verifyOtpRequestDto.getOtpRequestId(), verifyOtpRequestDto.getOtp())
                 .flatMap(otp -> userService.getUsername(otp.getUsername()))
                 .flatMap(user -> Mono.just(prepareTokenResponse(tokenProvider.createToken(user))));
@@ -60,7 +59,7 @@ public class AuthController extends AbstractController{
         HttpHeaders httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
         return new ResponseEntity<>(new AuthResponseDto(
-                jwt,null
+                jwt, null
         ), httpHeaders, HttpStatus.OK);
     }
 

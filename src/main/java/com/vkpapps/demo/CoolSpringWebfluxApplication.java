@@ -13,8 +13,8 @@ import org.springframework.web.reactive.config.EnableWebFlux;
 @ConfigurationPropertiesScan
 public class CoolSpringWebfluxApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(CoolSpringWebfluxApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(CoolSpringWebfluxApplication.class, args);
+    }
 
 }

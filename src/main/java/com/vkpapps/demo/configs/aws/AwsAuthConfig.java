@@ -8,7 +8,7 @@ import software.amazon.awssdk.auth.credentials.DefaultCredentialsProvider;
 @Component
 public class AwsAuthConfig {
     @Bean
-    public AwsCredentialsProvider awsCredentialProvider(){
+    public AwsCredentialsProvider awsCredentialProvider() {
         return DefaultCredentialsProvider.create();
     }
 }

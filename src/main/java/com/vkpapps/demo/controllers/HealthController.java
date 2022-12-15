@@ -9,14 +9,15 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/health")
-public class HealthController extends AbstractController{
-    @Data @AllArgsConstructor
-    static class Health{
-        private String serverId;
+public class HealthController extends AbstractController {
+    @PostMapping
+    public Mono<Health> check() {
+        return Mono.just(new Health("cool-webflux"));
     }
 
-    @PostMapping
-    public Mono<Health> check(){
-        return Mono.just(new Health("cool-webflux"));
+    @Data
+    @AllArgsConstructor
+    static class Health {
+        private String serverId;
     }
 }

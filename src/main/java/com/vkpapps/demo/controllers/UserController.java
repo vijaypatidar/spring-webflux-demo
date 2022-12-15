@@ -4,7 +4,11 @@ import com.vkpapps.demo.dtos.UserDto;
 import com.vkpapps.demo.exporters.Exporter;
 import com.vkpapps.demo.services.user.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import java.security.Principal;
+import java.util.List;
+import javax.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -16,14 +20,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
-import javax.validation.ValidationException;
-import java.security.Principal;
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/users")
 @RequiredArgsConstructor
 @SecurityRequirement(name = "JWT")
+@Slf4j
 public class UserController extends AbstractController {
     private final UserService userService;
 
@@ -53,6 +54,7 @@ public class UserController extends AbstractController {
             exporter.setDataSource(dataSource);
             return exporter.export();
         } catch (NoSuchBeanDefinitionException e) {
+            log.error("Invalid export type selected. Format:${}", format);
             return Mono.error(new ValidationException("Format:" + format + " does not supported"));
         }
     }

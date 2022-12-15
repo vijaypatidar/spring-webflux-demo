@@ -1,1 +1,13 @@
-[{"_id":"vijaypatidar","username":"vijaypatidar","password":"$2a$10$YMMq7Mn7uTQ79AGCqVUWcuMVudi62l1bKIcgBuxE/J.a6Xsi5dnlK","email":"vijay@example.com","roles":["ROLE_ADMIN","ROLE_USER"],"_class":"com.vkpapps.demo.models.User"}]
+[
+  {
+    "_id": "vijaypatidar",
+    "username": "vijaypatidar",
+    "password": "$2a$10$YMMq7Mn7uTQ79AGCqVUWcuMVudi62l1bKIcgBuxE/J.a6Xsi5dnlK",
+    "email": "vijay@example.com",
+    "roles": [
+      "ROLE_ADMIN",
+      "ROLE_USER"
+    ],
+    "_class": "com.vkpapps.demo.models.User"
+  }
+]

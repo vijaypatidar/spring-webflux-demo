@@ -1,5 +1,9 @@
 package com.vkpapps.demo.exporters;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Row;
@@ -8,24 +12,18 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.buffer.DataBuffer;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.util.List;
-import java.util.concurrent.atomic.AtomicInteger;
 
 @Service(value = "XLS_EXPORTER")
 @Slf4j
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class XLSExporter extends Exporter {
+    private final AtomicInteger count = new AtomicInteger(0);
     private ByteArrayOutputStream outputStream = null;
     private Sheet notedSheet = null;
     private Workbook workbook = null;
-    private final AtomicInteger count = new AtomicInteger(0);
 
     @Override
     protected Mono<Void> preProcessStart() {
@@ -87,6 +85,7 @@ public class XLSExporter extends Exporter {
             }
         });
     }
+
     @Override
     protected String getExtension() {
         return "xls";

@@ -6,5 +6,6 @@ import reactor.core.publisher.Mono;
 
 public interface OtpService {
     Mono<Otp> sendOtp(User user);
+
     Mono<Otp> verifyOtp(String requestId, int otp);
 }

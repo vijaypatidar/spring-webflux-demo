@@ -12,8 +12,9 @@ public class AWSClientsConfig {
 
     @Value("${aws.region:ap-south-1}")
     private String region;
+
     @Bean
-    public SnsAsyncClient snsClient(AwsCredentialsProvider awsCredentialsProvider){
+    public SnsAsyncClient snsClient(AwsCredentialsProvider awsCredentialsProvider) {
         return SnsAsyncClient.builder()
                 .region(Region.of(region))
                 .credentialsProvider(awsCredentialsProvider)

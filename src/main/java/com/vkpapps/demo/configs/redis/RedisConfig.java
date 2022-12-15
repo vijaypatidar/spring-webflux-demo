@@ -17,9 +17,10 @@ public class RedisConfig {
             ReactiveRedisConnectionFactory factory) {
         return buildTemplate(factory, User.class);
     }
+
     @Bean
     public ReactiveValueOperations<String, User> userReactiveValueOperations(
-            ReactiveRedisTemplate<String,User> template) {
+            ReactiveRedisTemplate<String, User> template) {
         return template.opsForValue();
     }
 

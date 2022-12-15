@@ -3,6 +3,7 @@ package com.vkpapps.demo.services.notification;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import software.amazon.awssdk.services.sns.SnsAsyncClient;
@@ -11,10 +12,11 @@ import software.amazon.awssdk.services.sns.model.PublishRequest;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class SnsNotificationService implements NotificationService {
     private final SnsAsyncClient snsAsyncClient;
-    private String notificationTopiArn = null;
     private final ObjectMapper objectMapper;
+    private String notificationTopiArn = null;
 
     @Override
     public Mono<Void> sendNotification(Notification notification) {
@@ -26,6 +28,7 @@ public class SnsNotificationService implements NotificationService {
                         .build();
                 return Mono.fromFuture(snsAsyncClient.publish(request)).flatMap(publishResponse -> Mono.empty());
             } catch (JsonProcessingException e) {
+                log.error("Failed to parse object as json string.", e);
                 return Mono.error(e);
             }
         });

@@ -25,7 +25,7 @@ public class JwtTokenAuthenticationFilter implements WebFilter {
         String token = resolveToken(exchange.getRequest());
         if (StringUtils.hasText(token) && this.tokenProvider.validateToken(token)) {
             Authentication authentication = this.tokenProvider.getAuthentication(token);
-            log.info("Username:"+authentication.getName()+" is authenticated successfully. Requested resource uir:"+exchange.getRequest().getPath() +" Method:"+exchange.getRequest().getMethodValue());
+            log.info("Username:" + authentication.getName() + " is authenticated successfully. Requested resource uir:" + exchange.getRequest().getPath() + " Method:" + exchange.getRequest().getMethodValue());
             return chain.filter(exchange)
                     .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));
         }
