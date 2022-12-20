@@ -28,3 +28,27 @@ server:
 ```
 https://localhost:8080
 ```
+
+## Create separate dir for integration test
+
+1. Create folder under src
+
+```text
+--src
+  |--main
+  |--test
+  |--integrationTest
+```
+
+2. Now update build.gradle
+
+```groovy
+sourceSets {
+    integrationTest {
+        java.srcDir file("src/integrationTest/java")
+        resources.srcDir file("src/integrationTest/resources")
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
+    }
+}
+```
