@@ -44,7 +44,7 @@ public class AuthController extends AbstractController {
         return userService
                 .getUsername(otpRequestDto.getUsername())
                 .flatMap(otpService::sendOtp)
-                .flatMap(otp -> Mono.just(new OtpResponseDto(otp.getId())));
+                .flatMap(this::toDto);
     }
 
     @PostMapping("/verify-otp")

@@ -48,16 +48,16 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
     }
 
     @Override
-    public Mono<Otp> verifyOtp(String requestId, int otp) {
+    public Mono<Otp> verifyOtp(String requestId, int otpPin) {
         return getMongoTemplate().findById(requestId, Otp.class)
-                .flatMap(otp1 -> {
+                .flatMap(otp -> {
                     long currentTime = new Date().getTime();
-                    if (otp != otp1.getOtpPin()) {
+                    if (otpPin != otp.getOtpPin()) {
                         return Mono.error(new ValidationException("Invalid otp."));
-                    } else if (currentTime > otp1.getValidUpTo().getTime()) {
+                    } else if (currentTime > otp.getValidUpTo().getTime()) {
                         return Mono.error(new ValidationException("Otp is expired."));
                     } else {
-                        return getMongoTemplate().remove(otp1).thenReturn(otp1);
+                        return getMongoTemplate().remove(otp).thenReturn(otp);
                     }
                 });
     }

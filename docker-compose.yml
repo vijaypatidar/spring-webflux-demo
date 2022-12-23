@@ -53,6 +53,12 @@ services:
     volumes:
       - redis:/data
 
+  SonarQube:
+    image: sonarqube:lts
+    platform: linux/x86_64
+    ports:
+      - "9000:9000"
+
 volumes:
   redis:
     driver: local
