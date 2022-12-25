@@ -1,5 +1,5 @@
 # Cool Spring Webflux
-
+[![Build](https://github.com/vijaypatidar/cool-spring-webflux/actions/workflows/gradle.yml/badge.svg)](https://github.com/vijaypatidar/cool-spring-webflux/actions/workflows/gradle.yml)
 ## Swagger UI
 
 http://localhost:8080/swagger-ui.html
