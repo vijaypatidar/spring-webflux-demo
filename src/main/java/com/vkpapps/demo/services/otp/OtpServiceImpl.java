@@ -9,7 +9,6 @@ import com.vkpapps.demo.services.notification.NotificationService;
 import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
