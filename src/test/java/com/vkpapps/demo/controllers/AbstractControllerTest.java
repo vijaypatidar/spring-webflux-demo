@@ -20,11 +20,19 @@ public abstract class AbstractControllerTest {
     @Autowired
     protected JwtTokenProvider tokenProvider;
 
-    protected User getUser1() {
+    protected User getAdminUser() {
         return new User("vijaypatidar",
                 encoder.encode("12345678"),
                 "vijay@example.com",
                 List.of("ROLE_ADMIN"),
+                false
+        );
+    }
+    protected User getNormalUser() {
+        return new User("vijaypatidar",
+                encoder.encode("12345678"),
+                "vijay@example.com",
+                List.of("ROLE_USER"),
                 false
         );
     }

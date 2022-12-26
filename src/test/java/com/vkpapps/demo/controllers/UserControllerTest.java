@@ -21,7 +21,7 @@ class UserControllerTest extends AbstractControllerTest {
     @Test
     void testGetUserInfo() {
 
-        User user = getUser1();
+        User user = getAdminUser();
         String jwtToken = getJwtToken(user);
         Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
@@ -41,7 +41,7 @@ class UserControllerTest extends AbstractControllerTest {
     @Test
     void testGetUserInfoWithInvalidJwtToken() {
 
-        User user = getUser1();
+        User user = getAdminUser();
         Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.get()
@@ -55,7 +55,7 @@ class UserControllerTest extends AbstractControllerTest {
 
     @Test
     void verifyExport() {
-        User user = getUser1();
+        User user = getAdminUser();
         String jwtToken = getJwtToken(user);
         Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
         Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));
@@ -74,9 +74,26 @@ class UserControllerTest extends AbstractControllerTest {
 
     }
     @Test
+    @DisplayName("Test export user fails due to invalid role")
+    void testExportForbidden() {
+        User user = getNormalUser();
+        String jwtToken = getJwtToken(user);
+        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));
+
+        webClient.get()
+                .uri("/api/users/export/csv")
+                .header("Authorization", "Bearer " + jwtToken)
+                .exchange()
+                .expectStatus().isForbidden();
+
+        Mockito.verify(userService, Mockito.times(0)).getUsers();
+
+    }
+    @Test
     @DisplayName("Test unsupported export type")
     void testUnsupportedExport() {
-        User user = getUser1();
+        User user = getAdminUser();
         String jwtToken = getJwtToken(user);
         Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
         Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));

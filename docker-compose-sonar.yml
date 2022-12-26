@@ -1,30 +1,10 @@
-version: "3.0"
+version: "3"
 
 services:
-  SonarQube:
+  sonarqube:
     image: sonarqube:lts
     platform: linux/x86_64
-    hostname: sonarqube
-    container_name: sonarqube
-    depends_on:
-      - db
     environment:
-      SONAR_JDBC_URL: jdbc:127.0.0.1://db:5432/sonar
-      SONAR_JDBC_USERNAME: sonar
-      SONAR_JDBC_PASSWORD: sonar
+      SONAR_SEARCH_JAVAADDITIONALOPTS: "-Dbootstrap.system_call_filter=false"
     ports:
       - "9000:9000"
-  db:
-    image: postgres:13
-    hostname: postgresql
-    container_name: postgresql
-    environment:
-      POSTGRES_USER: sonar
-      POSTGRES_PASSWORD: sonar
-      POSTGRES_DB: sonar
-    ports:
-      - "5432:5432"
-
-networks:
-  es-net:
-    driver: bridge

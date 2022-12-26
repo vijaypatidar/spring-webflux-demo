@@ -34,7 +34,7 @@ class AuthControllerTest extends AbstractControllerTest {
         requestDto.setUsername("vijaypatidar");
         requestDto.setPassword("12345678");
 
-        User user = getUser1();
+        User user = getAdminUser();
 
         Mockito.when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
 
@@ -57,7 +57,7 @@ class AuthControllerTest extends AbstractControllerTest {
         requestDto.setUsername("vijaypatidar");
         requestDto.setPassword("12345677");//invalid password
 
-        User user = getUser1();
+        User user = getAdminUser();
 
         Mockito.when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
 
@@ -79,7 +79,7 @@ class AuthControllerTest extends AbstractControllerTest {
         OtpRequestDto requestDto = new OtpRequestDto();
         requestDto.setUsername("vijaypatidar");
 
-        User user = getUser1();
+        User user = getAdminUser();
         Otp otp = getOtp(requestDto.getUsername());
 
         Mockito.when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
@@ -101,7 +101,7 @@ class AuthControllerTest extends AbstractControllerTest {
 
     @Test
     void verifyOtpAndLoginSuccess() {
-        User user = getUser1();
+        User user = getAdminUser();
         Otp otp = getOtp(user.getUsername());
 
         VerifyOtpRequestDto requestDto = new VerifyOtpRequestDto();
@@ -124,7 +124,7 @@ class AuthControllerTest extends AbstractControllerTest {
 
     @Test
     void verifyOtpAndLoginFailed() {
-        User user = getUser1();
+        User user = getAdminUser();
         Otp otp = getOtp(user.getUsername());
 
         VerifyOtpRequestDto requestDto = new VerifyOtpRequestDto();
