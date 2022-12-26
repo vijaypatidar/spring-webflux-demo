@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.ReactiveSecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.server.ServerWebExchange;
@@ -24,7 +23,7 @@ public class JwtTokenAuthenticationFilter implements WebFilter {
     public Mono<Void> filter(ServerWebExchange exchange, WebFilterChain chain) {
         String token = resolveToken(exchange.getRequest());
         if (StringUtils.hasText(token) && this.tokenProvider.validateToken(token)) {
-            Authentication authentication = this.tokenProvider.getAuthentication(token);
+            var authentication = this.tokenProvider.getAuthentication(token);
             log.info("Username:" + authentication.getName() + " is authenticated successfully. Requested resource uir:" + exchange.getRequest().getPath() + " Method:" + exchange.getRequest().getMethodValue());
             return chain.filter(exchange)
                     .contextWrite(ReactiveSecurityContextHolder.withAuthentication(authentication));

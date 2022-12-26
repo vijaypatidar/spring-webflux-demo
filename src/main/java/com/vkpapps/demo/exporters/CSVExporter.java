@@ -16,7 +16,7 @@ public class CSVExporter extends Exporter {
     @Override
     protected Mono<DataBuffer> processHeaders(Mono<List<String>> headersMono) {
         return headersMono.flatMap(headers -> {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
 
             for (String header : headers) {
                 stringBuilder.append(header).append(",");
@@ -30,7 +30,7 @@ public class CSVExporter extends Exporter {
     @Override
     protected Flux<DataBuffer> processRows(Flux<List<String>> rowsFlux) {
         return rowsFlux.buffer(20).flatMap(rows -> {
-            StringBuilder stringBuilder = new StringBuilder();
+            var stringBuilder = new StringBuilder();
             for (List<String> row : rows) {
                 for (String cell : row) {
                     stringBuilder.append(cell).append(",");

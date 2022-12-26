@@ -39,13 +39,13 @@ public class JwtTokenProvider {
 
         String username = authentication.getName();
         Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        Claims claims = Jwts.claims().setSubject(username);
+        var claims = Jwts.claims().setSubject(username);
         if (!authorities.isEmpty()) {
             claims.put(AUTHORITIES_KEY, authorities.stream().map(GrantedAuthority::getAuthority).collect(joining(",")));
         }
 
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + this.jwtProperties.getValidityInMs());
+        var now = new Date();
+        var validity = new Date(now.getTime() + this.jwtProperties.getValidityInMs());
 
         return Jwts.builder()
                 .setClaims(claims)
@@ -56,9 +56,9 @@ public class JwtTokenProvider {
     }
 
     public String createToken(com.vkpapps.demo.models.User user) {
-        Date now = new Date();
-        Date validity = new Date(now.getTime() + this.jwtProperties.getValidityInMs());
-        Claims claims = Jwts.claims().setSubject(user.getUsername());
+        var now = new Date();
+        var validity = new Date(now.getTime() + this.jwtProperties.getValidityInMs());
+        var claims = Jwts.claims().setSubject(user.getUsername());
         claims.put(AUTHORITIES_KEY, String.join(",", user.getRoles()));
         return Jwts.builder()
                 .setClaims(claims)
@@ -69,14 +69,14 @@ public class JwtTokenProvider {
     }
 
     public Authentication getAuthentication(String token) {
-        Claims claims = Jwts.parserBuilder().setSigningKey(this.secretKey).build().parseClaimsJws(token).getBody();
+        var claims = Jwts.parserBuilder().setSigningKey(this.secretKey).build().parseClaimsJws(token).getBody();
 
         Object authoritiesClaim = claims.get(AUTHORITIES_KEY);
 
         Collection<? extends GrantedAuthority> authorities = authoritiesClaim == null ? AuthorityUtils.NO_AUTHORITIES
                 : AuthorityUtils.commaSeparatedStringToAuthorityList(authoritiesClaim.toString());
 
-        User principal = new User(claims.getSubject(), "", authorities);
+        var principal = new User(claims.getSubject(), "", authorities);
 
         return new UsernamePasswordAuthenticationToken(principal, token, authorities);
     }

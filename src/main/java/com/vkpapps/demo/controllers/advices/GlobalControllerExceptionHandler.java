@@ -27,7 +27,7 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(AccessDeniedException.class)
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public ResponseEntity<ErrorResponse> accessDenied(AccessDeniedException ex) {
-        ErrorResponse response = new ErrorResponse();
+        var response = new ErrorResponse();
         response.setMessages(List.of(ex.getMessage()));
         if ("dev".equals(mode)) {
             response.setStackTraces(ex.getStackTrace());
@@ -45,7 +45,7 @@ public class GlobalControllerExceptionHandler {
 
     private ErrorResponse buildErrorResponse(Exception ex) {
         List<String> messages = new LinkedList<>();
-        ErrorResponse errorResponse = new ErrorResponse();
+        var errorResponse = new ErrorResponse();
         errorResponse.setMessages(messages);
 
         if ("dev".equals(mode)) {

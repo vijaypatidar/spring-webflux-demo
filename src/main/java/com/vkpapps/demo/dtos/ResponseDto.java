@@ -11,30 +11,25 @@ public class ResponseDto<T> {
     Object error;
     String warning;
 
-
-    public ResponseDto() {
-    }
-
-
-    public static ResponseDto success() {
+    public static <T> ResponseDto<T> success() {
         return success(null);
     }
 
-    public static <T> ResponseDto success(T data) {
+    public static <T> ResponseDto<T> success(T data) {
         return new ResponseDto<T>().setSuccess(true).setData(data);
     }
 
-    public static ResponseDto error(Throwable e) {
+    public static <T> ResponseDto<T> error(Throwable e) {
         LogManager.getLogger(StackLocatorUtil.getCallerClass(2)).info(e);
-        return new ResponseDto().setSuccess(false).setError(e);
+        return new ResponseDto<T>().setSuccess(false).setError(e);
     }
 
-    public static ResponseDto error(Object e) {
-        return new ResponseDto().setSuccess(false).setError(e);
+    public static <T> ResponseDto<T> error(Object e) {
+        return new ResponseDto<T>().setSuccess(false).setError(e);
     }
 
-    public static ResponseDto error(String e) {
-        return new ResponseDto().setSuccess(false).setError(e);
+    public static <T> ResponseDto<T> error(String e) {
+        return new ResponseDto<T>().setSuccess(false).setError(e);
     }
 
     /* get success */

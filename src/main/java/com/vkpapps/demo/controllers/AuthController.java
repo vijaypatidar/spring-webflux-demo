@@ -56,7 +56,7 @@ public class AuthController extends AbstractController {
     }
 
     private ResponseEntity<AuthResponseDto> prepareTokenResponse(String jwt) {
-        HttpHeaders httpHeaders = new HttpHeaders();
+        var httpHeaders = new HttpHeaders();
         httpHeaders.add(HttpHeaders.AUTHORIZATION, "Bearer " + jwt);
         return new ResponseEntity<>(new AuthResponseDto(
                 jwt, null

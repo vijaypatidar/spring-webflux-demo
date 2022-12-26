@@ -35,8 +35,8 @@ public class ElasticsearchClientConfig {
     @Bean
     public ElasticsearchClient getElasticsearchClient(ElasticSearchConfig config) {
 
-        RestClientBuilder builder = getRestClientBuilder(config);
-        RestClient restClient = builder.build();
+        var builder = getRestClientBuilder(config);
+        var restClient = builder.build();
 
         // Create the transport with a Jackson mapper
         ElasticsearchTransport transport = new RestClientTransport(

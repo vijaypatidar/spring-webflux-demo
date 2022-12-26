@@ -25,7 +25,7 @@ public class RedisConfig {
     }
 
     private <T> ReactiveRedisTemplate<String, T> buildTemplate(ReactiveRedisConnectionFactory factory, Class<T> tClass) {
-        StringRedisSerializer keySerializer = new StringRedisSerializer();
+        var keySerializer = new StringRedisSerializer();
         Jackson2JsonRedisSerializer<T> valueSerializer = new Jackson2JsonRedisSerializer<>(tClass);
         RedisSerializationContext.RedisSerializationContextBuilder<String, T> builder = RedisSerializationContext.newSerializationContext(keySerializer);
         RedisSerializationContext<String, T> context = builder.value(valueSerializer).build();

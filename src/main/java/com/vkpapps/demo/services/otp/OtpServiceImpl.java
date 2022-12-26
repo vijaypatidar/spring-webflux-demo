@@ -30,8 +30,8 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
 
     @Override
     public Mono<Otp> sendOtp(User user) {
-        String optRequestId = UUID.randomUUID().toString();
-        Otp otp = Otp.builder()
+        var optRequestId = UUID.randomUUID().toString();
+        var otp = Otp.builder()
                 .id(optRequestId)
                 .username(user.getUsername())
                 .validUpTo(new Date(new Date().getTime() + 10 * 60 * 1000))
@@ -39,7 +39,7 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
 
         return getMongoTemplate().save(otp).flatMap(otp1 -> {
             String body = otp1.getOtpPin() + " is your your Cool spring OTP. Do not share it with anyone.";
-            Notification notification = Notification.builder()
+            var notification = Notification.builder()
                     .emails(List.of(user.getEmail()))
                     .body(body)
                     .build();

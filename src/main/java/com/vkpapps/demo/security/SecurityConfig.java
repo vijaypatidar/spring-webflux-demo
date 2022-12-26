@@ -38,7 +38,7 @@ public class SecurityConfig {
     SecurityWebFilterChain springWebFilterChain(ServerHttpSecurity http,
                                                 JwtTokenProvider tokenProvider,
                                                 ReactiveAuthenticationManager reactiveAuthenticationManager) {
-        final String[] authWhiteList = {
+        final var authWhiteList = new String[]{
                 // -- Swagger UI v2
                 "/v2/api-docs",
                 "/swagger-resources",

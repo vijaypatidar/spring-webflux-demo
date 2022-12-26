@@ -43,8 +43,8 @@ public class UserController extends AbstractController {
     @PreAuthorize("hasRole('ADMIN')")
     public Mono<Void> export(ServerWebExchange webExchange, @PathVariable String format) {
         try {
-            Exporter exporter = this.applicationContext.getBean(format.toUpperCase() + "_EXPORTER", Exporter.class);
-            Exporter.ExportDataSource dataSource = Exporter.ExportDataSource.builder()
+            var exporter = this.applicationContext.getBean(format.toUpperCase() + "_EXPORTER", Exporter.class);
+            var dataSource = Exporter.ExportDataSource.builder()
                     .serverWebExchange(webExchange)
                     .headers(Mono.just(List.of("Name", "Email", "Roles")))
                     .rows(userService.getUsers().flatMap(user -> Mono.just(List.of(user.getUsername(), user.getEmail(), String.join("|", user.getRoles())))))

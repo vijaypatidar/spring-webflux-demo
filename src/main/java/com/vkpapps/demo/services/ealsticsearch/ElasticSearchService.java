@@ -30,7 +30,7 @@ public class ElasticSearchService {
     }
 
     public <T> List<T> search(Map<String, Object> term, String indexName, Class<T> tClass) {
-        SearchRequest searchRequest = new SearchRequest.Builder()
+        var searchRequest = new SearchRequest.Builder()
                 .index(indexName)
                 .query(q -> {
                     term.forEach((k, v) -> q.term(t -> {

@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -42,8 +41,8 @@ public class XLSExporter extends Exporter {
     @Override
     protected Mono<DataBuffer> processHeaders(Mono<List<String>> headersMono) {
         return headersMono.flatMap(headers -> {
-            Row headerRow = notedSheet.createRow(count.get());
-            for (int i = 0; i < headers.size(); i++) {
+            var headerRow = notedSheet.createRow(count.get());
+            for (var i = 0; i < headers.size(); i++) {
                 headerRow.createCell(i).setCellValue(headers.get(i));
             }
             try {
@@ -58,8 +57,8 @@ public class XLSExporter extends Exporter {
     protected Flux<DataBuffer> processRows(Flux<List<String>> rowsFlux) {
         return rowsFlux.buffer(20).flatMap(rows -> {
             rows.forEach(r -> {
-                Row row = notedSheet.createRow(count.addAndGet(1));
-                for (int i = 0; i < r.size(); i++) {
+                var row = notedSheet.createRow(count.addAndGet(1));
+                for (var i = 0; i < r.size(); i++) {
                     row.createCell(i).setCellValue(r.get(i));
                 }
             });
