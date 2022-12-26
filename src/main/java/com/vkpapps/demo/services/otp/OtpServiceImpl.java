@@ -6,6 +6,7 @@ import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.AbstractMongoService;
 import com.vkpapps.demo.services.notification.Notification;
 import com.vkpapps.demo.services.notification.NotificationService;
+import java.security.SecureRandom;
 import java.util.Date;
 import java.util.List;
 import java.util.Random;
@@ -24,7 +25,7 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
     @NonNull
     private final NotificationService notificationService;
     @NonNull
-    private final Random random = new Random();
+    SecureRandom random = new SecureRandom();
     @NonNull
     private final ReactiveMongoTemplate mongoTemplate;
 
