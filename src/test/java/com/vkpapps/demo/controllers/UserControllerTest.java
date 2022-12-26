@@ -2,6 +2,7 @@ package com.vkpapps.demo.controllers;
 
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.user.UserService;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -70,6 +71,23 @@ class UserControllerTest extends AbstractControllerTest {
                         .build());
 
         Mockito.verify(userService, Mockito.times(1)).getUsers();
+
+    }
+    @Test
+    @DisplayName("Test unsupported export type")
+    void testUnsupportedExport() {
+        User user = getUser1();
+        String jwtToken = getJwtToken(user);
+        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));
+
+        webClient.get()
+                .uri("/api/users/export/ppt")
+                .header("Authorization", "Bearer " + jwtToken)
+                .exchange()
+                .expectStatus().isBadRequest();
+
+        Mockito.verify(userService, Mockito.times(0)).getUsers();
 
     }
 }
