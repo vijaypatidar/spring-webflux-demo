@@ -4,6 +4,7 @@ import com.vkpapps.demo.dtos.auth.*;
 import com.vkpapps.demo.security.jwt.JwtTokenProvider;
 import com.vkpapps.demo.services.otp.OtpService;
 import com.vkpapps.demo.services.user.UserService;
+import javax.annotation.Nonnull;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,9 +24,13 @@ import reactor.core.publisher.Mono;
 @RequestMapping("/auth")
 @Slf4j
 public class AuthController extends AbstractController {
+    @Nonnull
     private final JwtTokenProvider tokenProvider;
+    @Nonnull
     private final ReactiveAuthenticationManager authenticationManager;
+    @Nonnull
     private final UserService userService;
+    @Nonnull
     private final OtpService otpService;
 
     @PostMapping("/login")

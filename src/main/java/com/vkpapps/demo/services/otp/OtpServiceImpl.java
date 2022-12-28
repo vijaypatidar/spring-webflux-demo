@@ -24,9 +24,9 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
     @NonNull
     private final NotificationService notificationService;
     @NonNull
-    SecureRandom random = new SecureRandom();
-    @NonNull
     private final ReactiveMongoTemplate mongoTemplate;
+    @NonNull
+    SecureRandom random = new SecureRandom();
 
     @Override
     public Mono<Otp> sendOtp(User user) {

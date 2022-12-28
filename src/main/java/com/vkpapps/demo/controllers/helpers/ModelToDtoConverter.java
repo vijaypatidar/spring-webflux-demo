@@ -12,7 +12,7 @@ public interface ModelToDtoConverter {
         return Mono.just(getModelMapper().map(user, UserDto.class));
     }
 
-    default Mono<OtpResponseDto> toDto(Otp otp){
+    default Mono<OtpResponseDto> toDto(Otp otp) {
         return Mono.just(new OtpResponseDto(otp.getId()));
     }
 

@@ -40,6 +40,8 @@ services:
     restart: always
     ports:
       - "8081:8081"
+    depends_on:
+      - mongodb
     environment:
       ME_CONFIG_MONGODB_ADMINUSERNAME: root
       ME_CONFIG_MONGODB_ADMINPASSWORD: example
@@ -52,12 +54,6 @@ services:
       - '6379:6379'
     volumes:
       - redis:/data
-
-  SonarQube:
-    image: sonarqube:lts
-    platform: linux/x86_64
-    ports:
-      - "9000:9000"
 
 volumes:
   redis:

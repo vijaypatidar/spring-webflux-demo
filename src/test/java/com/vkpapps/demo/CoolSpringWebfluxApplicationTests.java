@@ -11,6 +11,7 @@ class CoolSpringWebfluxApplicationTests {
 
     @Autowired
     UserController userController;
+
     @Test
     void contextLoads() {
         Assertions.assertNotNull(userController);

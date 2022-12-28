@@ -20,7 +20,6 @@ class UserControllerTest extends AbstractControllerTest {
 
     @Test
     void testGetUserInfo() {
-
         User user = getAdminUser();
         String jwtToken = getJwtToken(user);
         Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
@@ -36,6 +35,42 @@ class UserControllerTest extends AbstractControllerTest {
                 .jsonPath("$.roles").isEqualTo(user.getRoles().get(0));
 
         Mockito.verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
+    }
+
+    @Test
+    void testGetUserInfoByUsername() {
+        User user = getAdminUser();
+        String username = user.getUsername();
+        String jwtToken = getJwtToken(user);
+        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+
+        webClient.get()
+                .uri("/api/users/" + username)
+                .header("Authorization", "Bearer " + jwtToken)
+                .exchange()
+                .expectStatus().isOk()
+                .expectBody()
+                .jsonPath("$.username").isEqualTo(user.getUsername())
+                .jsonPath("$.email").isEqualTo(user.getEmail())
+                .jsonPath("$.roles").isEqualTo(user.getRoles().get(0));
+
+        Mockito.verify(userService, Mockito.times(1)).getUsername(username);
+    }
+
+    @Test
+    void testGetUserInfoByUsernameFailsDueTo403() {
+        User user = getNormalUser();
+        String username = user.getUsername();
+        String jwtToken = getJwtToken(user);
+        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+
+        webClient.get()
+                .uri("/api/users/" + username)
+                .header("Authorization", "Bearer " + jwtToken)
+                .exchange()
+                .expectStatus().isForbidden();
+
+        Mockito.verify(userService, Mockito.times(0)).getUsername(username);
     }
 
     @Test
@@ -73,6 +108,7 @@ class UserControllerTest extends AbstractControllerTest {
         Mockito.verify(userService, Mockito.times(1)).getUsers();
 
     }
+
     @Test
     @DisplayName("Test export user fails due to invalid role")
     void testExportForbidden() {
@@ -90,6 +126,7 @@ class UserControllerTest extends AbstractControllerTest {
         Mockito.verify(userService, Mockito.times(0)).getUsers();
 
     }
+
     @Test
     @DisplayName("Test unsupported export type")
     void testUnsupportedExport() {
