@@ -74,5 +74,20 @@ class OtpServiceImplTest extends AbstractTestData {
         Mockito.verify(mockReactiveMongoTemplate).findById(Mockito.eq(otp.getId()), Mockito.any());
         Mockito.verify(mockReactiveMongoTemplate,Mockito.times(0)).remove(Mockito.any(Otp.class));
     }
-
+    @Test
+    void testVerifyOtpFailsDueToOtpExpired() {
+        Otp otp = Otp.builder()
+                .id(UUID.randomUUID().toString())
+                .username("vijaypatidar")
+                .otpPin(123456)
+                .validUpTo(new Date(new Date().getTime()))
+                .build();
+        Mockito.when(mockReactiveMongoTemplate.findById(otp.getId(), Otp.class)).thenReturn(Mono.just(otp));
+        Mockito.when(mockReactiveMongoTemplate.remove(otp)).thenReturn(Mono.empty());
+        Mono<Otp> otpMono = otpService.verifyOtp(otp.getId(), 123456);
+        StepVerifier.create(otpMono)
+                .expectError().verify();
+        Mockito.verify(mockReactiveMongoTemplate).findById(Mockito.eq(otp.getId()), Mockito.any());
+        Mockito.verify(mockReactiveMongoTemplate,Mockito.times(0)).remove(Mockito.any(Otp.class));
+    }
 }
