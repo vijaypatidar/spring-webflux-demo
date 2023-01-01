@@ -1,5 +1,6 @@
 package com.vkpapps.demo.services.user;
 
+import com.vkpapps.demo.exceptions.ResourceNotFoundException;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.AbstractMongoService;
 import lombok.NonNull;
@@ -29,7 +30,8 @@ public class UserServiceImpl extends AbstractMongoService implements UserService
     public Mono<User> getUsername(String userId) {
         return redisTemplate.get(userId)
                 .switchIfEmpty(getMongoTemplate().findOne(Query.query(Criteria.where("username").is(userId)), User.class)
-                        .flatMap(user -> redisTemplate.set(userId, user).thenReturn(user)));
+                        .flatMap(user -> redisTemplate.set(userId, user).thenReturn(user)))
+                .switchIfEmpty(Mono.error(new ResourceNotFoundException("User not found with username:" + userId)));
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.vkpapps.demo.controllers.advices;
 
+import com.vkpapps.demo.exceptions.ResourceNotFoundException;
 import com.vkpapps.demo.exceptions.ValidationException;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -39,6 +40,12 @@ public class GlobalControllerExceptionHandler {
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleValidationExceptions(
+            Exception ex) {
+        return buildErrorResponse(ex);
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(ResourceNotFoundException.class)
+    public ErrorResponse handleResourceNotFoundException(
             Exception ex) {
         return buildErrorResponse(ex);
     }
