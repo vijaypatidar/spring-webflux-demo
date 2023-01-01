@@ -80,7 +80,7 @@ class OtpServiceImplTest extends AbstractTestData {
                 .id(UUID.randomUUID().toString())
                 .username("vijaypatidar")
                 .otpPin(123456)
-                .validUpTo(new Date(new Date().getTime()))
+                .validUpTo(new Date(new Date().getTime()-10*60*1000))
                 .build();
         Mockito.when(mockReactiveMongoTemplate.findById(otp.getId(), Otp.class)).thenReturn(Mono.just(otp));
         Mockito.when(mockReactiveMongoTemplate.remove(otp)).thenReturn(Mono.empty());
