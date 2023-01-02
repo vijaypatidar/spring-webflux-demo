@@ -29,7 +29,7 @@ public class ElasticSearchService {
         }
     }
 
-    public <T> List<T> search(Map<String, Object> term, String indexName, Class<T> tClass) {
+    public <T> List<T> termSearch(Map<String, Object> term, String indexName, Class<T> tClass) {
         var searchRequest = new SearchRequest.Builder()
                 .index(indexName)
                 .query(q -> {
@@ -41,6 +41,20 @@ public class ElasticSearchService {
                 })
                 .build();
         return search(tClass, searchRequest);
+    }
+
+    public List<Map> querySearch(String query, List<String> fields, String indexName) {
+        var searchRequest = new SearchRequest.Builder()
+                .index(indexName)
+                .query(q -> {
+                    q.multiMatch(builder -> {
+                        builder.query(query).fields(fields);
+                        return builder;
+                    });
+                    return q;
+                })
+                .build();
+        return search(Map.class, searchRequest);
     }
 
     public <T> List<T> search(Class<T> tClass, SearchRequest searchRequest) {
