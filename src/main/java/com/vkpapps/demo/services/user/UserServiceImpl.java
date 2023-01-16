@@ -25,7 +25,7 @@ public class UserServiceImpl extends AbstractMongoService implements UserService
     @NotNull
     private final ReactiveValueOperations<String, User> redisTemplate;
     @NotNull
-    private ReactiveMongoTemplate mongoTemplate;
+    private final ReactiveMongoTemplate mongoTemplate;
 
     @Override
     public Mono<User> getUsername(String userId) {
