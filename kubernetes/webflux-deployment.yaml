@@ -34,8 +34,6 @@ spec:
           image: kibana:8.4.1
           environment:
             - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-          networks:
-            - es-net
           depends_on:
             - elasticsearch
           ports:
@@ -49,13 +47,9 @@ spec:
           environment:
             MONGO_INITDB_ROOT_USERNAME: root
             MONGO_INITDB_ROOT_PASSWORD: example
-          volumes:
-            - mongo:/data
 
         - name: redis
           image: redis:6.2-alpine
           restart: always
           ports:
             - '6379:6379'
-          volumes:
-            - redis:/data
