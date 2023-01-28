@@ -20,7 +20,7 @@ import org.testcontainers.utility.DockerImageName;
 )
 @ActiveProfiles("test")
 @AutoConfigureWebTestClient
-public class AbstractIntegrationTest {
+public abstract class AbstractIntegrationTest {
     static GenericContainer<?> redis = new GenericContainer<>(DockerImageName.parse("redis:3-alpine"))
             .withExposedPorts(6379);
     static GenericContainer<?> mongodb = new GenericContainer<>(DockerImageName.parse("mongo:6.0.1"))
@@ -36,8 +36,8 @@ public class AbstractIntegrationTest {
         mongodb.start();
         registry.add("spring.redis.host", redis::getHost);
         registry.add("spring.redis.port", redis::getFirstMappedPort);
-        registry.add("spring.data.mongodb.uri", ()->String.format("mongodb://root:example@%s:%s",mongodb.getHost(),mongodb.getFirstMappedPort()));
-        registry.add("spring.data.mongodb.database", ()->"digital");
+        registry.add("spring.data.mongodb.uri", () -> String.format("mongodb://root:example@%s:%s", mongodb.getHost(), mongodb.getFirstMappedPort()));
+        registry.add("spring.data.mongodb.database", () -> "digital");
     }
 
     @Autowired

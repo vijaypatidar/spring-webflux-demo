@@ -1,0 +1,22 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webflux-deployment
+  namespace: spring
+  labels:
+    app: webflux
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: webflux
+  template:
+    metadata:
+      labels:
+        app: webflux
+    spec:
+      containers:
+        - name: webflux
+          image: vijaypatidar31/webflux:1.0
+          ports:
+            - containerPort: 8080
