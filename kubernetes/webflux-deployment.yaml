@@ -18,9 +18,16 @@ spec:
     spec:
       containers:
         - name: webflux
-          image: vijaypatidar31/webflux:1.1
+          image: vijaypatidar31/webflux:1.3
           ports:
             - containerPort: 8080
           envFrom:
             - configMapRef:
                 name: webflux-config
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+              scheme: HTTPS
+            initialDelaySeconds: 3
+            periodSeconds: 3
