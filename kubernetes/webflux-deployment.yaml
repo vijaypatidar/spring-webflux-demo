@@ -18,7 +18,7 @@ spec:
     spec:
       containers:
         - name: webflux
-          image: vijaypatidar31/webflux:1.1
+          image: vijaypatidar31/webflux:1.2
           ports:
             - containerPort: 8080
           envFrom:
