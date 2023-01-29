@@ -23,4 +23,5 @@ spec:
             - containerPort: 8080
           envFrom:
             - configMapRef:
+              namespace: spring
               name: webflux-config
