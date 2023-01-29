@@ -3,6 +3,7 @@ package com.vkpapps.demo.services.user;
 import com.vkpapps.demo.exceptions.ResourceNotFoundException;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.AbstractMongoService;
+import javax.validation.constraints.NotNull;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,12 +20,12 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor()
 @Slf4j
 public class UserServiceImpl extends AbstractMongoService implements UserService {
-    @NonNull
+    @NotNull
     private final PasswordEncoder passwordEncoder;
-    @NonNull
+    @NotNull
     private final ReactiveValueOperations<String, User> redisTemplate;
-    @NonNull
-    private ReactiveMongoTemplate mongoTemplate;
+    @NotNull
+    private final ReactiveMongoTemplate mongoTemplate;
 
     @Override
     public Mono<User> getUsername(String userId) {
@@ -37,6 +38,12 @@ public class UserServiceImpl extends AbstractMongoService implements UserService
     @Override
     public Flux<User> getUsers() {
         return this.getMongoTemplate().findAll(User.class);
+    }
+
+    @Override
+    public Mono<User> saveUser(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        return this.getMongoTemplate().save(user);
     }
 
     @Override

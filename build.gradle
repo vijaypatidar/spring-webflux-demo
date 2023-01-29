@@ -14,6 +14,8 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    integrationTestImplementation.extendsFrom implementation
+    integrationTestRuntimeOnly.extendsFrom runtimeOnly
 }
 
 repositories {
@@ -43,21 +45,15 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'io.projectreactor:reactor-test'
-
+    testImplementation "org.testcontainers:testcontainers:1.17.6"
+    testImplementation "org.testcontainers:junit-jupiter:1.17.6"
+    testImplementation "org.testcontainers:localstack:1.17.6"
+    testImplementation "com.amazonaws:aws-java-sdk-sns:1.11.914"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.test {
     useJUnitPlatform()
-}
-
-sourceSets {
-    integrationTest {
-        java.srcDir file("src/integrationTest/java")
-        resources.srcDir file("src/integrationTest/resources")
-        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
-        compileClasspath += sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
-    }
 }
 
 jacoco {
@@ -86,4 +82,30 @@ sonarqube {
     }
 }
 
+sourceSets {
+    integrationTest {
+        java.srcDir file("src/integrationTest/java")
+        resources.srcDir file("src/integrationTest/resources")
+        runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
+        compileClasspath += sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
+
+    }
+}
+
+tasks.register('integrationTest', Test) {
+    description = 'Runs integration tests.'
+    group = 'verification'
+
+    testClassesDirs = sourceSets.integrationTest.output.classesDirs
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    shouldRunAfter test
+
+    useJUnitPlatform()
+
+    testLogging {
+        events "passed"
+    }
+}
+
+check.dependsOn integrationTest
 check.dependsOn jacocoTestReport
