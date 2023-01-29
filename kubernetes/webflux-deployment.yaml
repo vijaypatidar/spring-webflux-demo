@@ -14,9 +14,13 @@ spec:
     metadata:
       labels:
         app: webflux
+        env: dev
     spec:
       containers:
         - name: webflux
           image: vijaypatidar31/webflux:1.1
           ports:
             - containerPort: 8080
+          envFrom:
+            - configMapRef:
+              name: webflux-config
