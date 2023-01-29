@@ -28,5 +28,6 @@ spec:
             httpGet:
               path: /health
               port: 80
+              scheme: HTTPS
             initialDelaySeconds: 3
             periodSeconds: 3
