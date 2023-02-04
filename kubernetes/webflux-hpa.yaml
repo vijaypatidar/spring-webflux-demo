@@ -7,7 +7,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    app: webflux
+    name: webflux-deployment
   minReplicas: 2
   maxReplicas: 10
   metrics:
