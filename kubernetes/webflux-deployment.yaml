@@ -19,7 +19,6 @@ spec:
       containers:
         - name: webflux
           image: vijaypatidar31/webflux:latest
-          platform: linux/x86_64
           ports:
             - containerPort: 8080
           envFrom:
