@@ -8,7 +8,7 @@ spec:
     app: webflux
   ports:
     - name: http
-      port: 80
+      port: 81
       targetPort: 8080
       nodePort: 30080
   type: LoadBalancer
