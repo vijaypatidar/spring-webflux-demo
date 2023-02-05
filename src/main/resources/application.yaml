@@ -5,10 +5,10 @@ spring:
       database: ${MONGO_DB_NAME:digital}
 jwt:
   secretKey: ${JWT_SCRET_KEY:ecf1222c-88fd-47f3-988f-bdd78bade1ad}
-server:
-  ssl:
-    key-store: classpath:keystore.jks
-    key-store-password: changeme
+# server:
+#   ssl:
+#     key-store: classpath:keystore.jks
+#     key-store-password: changeme
 
 elastic:
   hostname: 127.0.0.1
