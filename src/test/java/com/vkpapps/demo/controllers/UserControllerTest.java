@@ -12,6 +12,9 @@ import org.springframework.http.ContentDisposition;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
 @AutoConfigureWebTestClient()
 class UserControllerTest extends AbstractControllerTest {
@@ -22,7 +25,7 @@ class UserControllerTest extends AbstractControllerTest {
     void testGetUserInfo() {
         User user = getAdminUser();
         String jwtToken = getJwtToken(user);
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.get()
                 .uri("/api/users")
@@ -34,7 +37,7 @@ class UserControllerTest extends AbstractControllerTest {
                 .jsonPath("$.email").isEqualTo(user.getEmail())
                 .jsonPath("$.roles").isEqualTo(user.getRoles().get(0));
 
-        Mockito.verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
+        verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
     }
 
     @Test
@@ -42,7 +45,7 @@ class UserControllerTest extends AbstractControllerTest {
         User user = getAdminUser();
         String username = user.getUsername();
         String jwtToken = getJwtToken(user);
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.get()
                 .uri("/api/users/" + username)
@@ -54,7 +57,7 @@ class UserControllerTest extends AbstractControllerTest {
                 .jsonPath("$.email").isEqualTo(user.getEmail())
                 .jsonPath("$.roles").isEqualTo(user.getRoles().get(0));
 
-        Mockito.verify(userService, Mockito.times(1)).getUsername(username);
+        verify(userService, Mockito.times(1)).getUsername(username);
     }
 
     @Test
@@ -62,7 +65,7 @@ class UserControllerTest extends AbstractControllerTest {
         User user = getNormalUser();
         String username = user.getUsername();
         String jwtToken = getJwtToken(user);
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.get()
                 .uri("/api/users/" + username)
@@ -70,14 +73,14 @@ class UserControllerTest extends AbstractControllerTest {
                 .exchange()
                 .expectStatus().isForbidden();
 
-        Mockito.verify(userService, Mockito.times(0)).getUsername(username);
+        verify(userService, Mockito.times(0)).getUsername(username);
     }
 
     @Test
     void testGetUserInfoWithInvalidJwtToken() {
 
         User user = getAdminUser();
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.get()
                 .uri("/api/users")
@@ -85,15 +88,15 @@ class UserControllerTest extends AbstractControllerTest {
                 .exchange()
                 .expectStatus().isUnauthorized();
 
-        Mockito.verify(userService, Mockito.times(0)).getUsername("vijaypatidar");
+        verify(userService, Mockito.times(0)).getUsername("vijaypatidar");
     }
 
     @Test
     void verifyExport() {
         User user = getAdminUser();
         String jwtToken = getJwtToken(user);
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
-        Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsers()).thenReturn(Flux.just(user));
 
         webClient.get()
                 .uri("/api/users/export/csv")
@@ -105,7 +108,7 @@ class UserControllerTest extends AbstractControllerTest {
                         .filename("users.csv")
                         .build());
 
-        Mockito.verify(userService, Mockito.times(1)).getUsers();
+        verify(userService, Mockito.times(1)).getUsers();
 
     }
 
@@ -114,8 +117,8 @@ class UserControllerTest extends AbstractControllerTest {
     void testExportForbidden() {
         User user = getNormalUser();
         String jwtToken = getJwtToken(user);
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
-        Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsers()).thenReturn(Flux.just(user));
 
         webClient.get()
                 .uri("/api/users/export/csv")
@@ -123,7 +126,7 @@ class UserControllerTest extends AbstractControllerTest {
                 .exchange()
                 .expectStatus().isForbidden();
 
-        Mockito.verify(userService, Mockito.times(0)).getUsers();
+        verify(userService, Mockito.times(0)).getUsers();
 
     }
 
@@ -132,8 +135,8 @@ class UserControllerTest extends AbstractControllerTest {
     void testUnsupportedExport() {
         User user = getAdminUser();
         String jwtToken = getJwtToken(user);
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
-        Mockito.when(userService.getUsers()).thenReturn(Flux.just(user));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsers()).thenReturn(Flux.just(user));
 
         webClient.get()
                 .uri("/api/users/export/ppt")
@@ -141,7 +144,7 @@ class UserControllerTest extends AbstractControllerTest {
                 .exchange()
                 .expectStatus().isBadRequest();
 
-        Mockito.verify(userService, Mockito.times(0)).getUsers();
+        verify(userService, Mockito.times(0)).getUsers();
 
     }
 }

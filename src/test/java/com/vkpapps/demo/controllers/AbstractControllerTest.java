@@ -5,6 +5,7 @@ import com.vkpapps.demo.AbstractTestData;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 public abstract class AbstractControllerTest extends AbstractTestData {
@@ -13,7 +14,7 @@ public abstract class AbstractControllerTest extends AbstractTestData {
     @Autowired
     protected ObjectMapper objectMapper;
 
-    @Autowired
+    @SpyBean
     protected JwtTokenProvider tokenProvider;
 
     protected String getJwtToken(User user) {
