@@ -80,7 +80,7 @@ sonarqube {
         property "sonar.java.coveragePlugin", "jacoco"
         property "sonar.host.url", "http://localhost:9000"
         property "sonar.projectKey", "demo"
-        property "sonar.login", "d02d82e00324acf477bc433997676f235bf69975"
+        property "sonar.login", "11357d7274f8dab3c1816e43ccbac6273a64a54e"
         property "sonar.coverage.jacoco.xmlReportPath", "${buildDir}/reports/jacoco.xml"
     }
 }

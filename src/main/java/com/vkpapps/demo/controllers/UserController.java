@@ -10,7 +10,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
@@ -37,23 +36,23 @@ public class UserController extends AbstractController {
 
     @GetMapping("/{username}")
     @PreAuthorize("hasRole('ADMIN')")
-    public Mono<UserDto> getUserByUsername(@PathVariable String username, Authentication authentication) {
+    public Mono<UserDto> getUserByUsername(@PathVariable String username) {
         return userService.getUsername(username).flatMap(this::toDto);
     }
 
     @GetMapping("/search")
     @PreAuthorize("hasRole('ADMIN')")
-    public Flux<Map> searchUser(@RequestParam(name = "query") String query, Authentication authentication) {
+    public Flux<Map> searchUser(@RequestParam(name = "query") String query) {
         return Flux
                 .fromIterable(searchService.querySearch(query, List.of("username", "email"), "users"));
     }
 
     @GetMapping(value = "/export/{format}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
     @PreAuthorize("hasRole('ADMIN')")
-    public Mono<Void> export(ServerWebExchange webExchange, @PathVariable String format) {
+    public Mono<Void> export(final ServerWebExchange webExchange, @PathVariable final String format) {
         try {
-            var exporter = this.applicationContext.getBean(format.toUpperCase() + "_EXPORTER", Exporter.class);
-            var dataSource = Exporter.ExportDataSource.builder()
+            final var exporter = this.applicationContext.getBean(format.toUpperCase() + "_EXPORTER", Exporter.class);
+            final var dataSource = Exporter.ExportDataSource.builder()
                     .serverWebExchange(webExchange)
                     .headers(Mono.just(List.of("Name", "Email", "Roles")))
                     .rows(userService.getUsers().flatMap(user -> Mono.just(List.of(user.getUsername(), user.getEmail(), String.join("|", user.getRoles())))))

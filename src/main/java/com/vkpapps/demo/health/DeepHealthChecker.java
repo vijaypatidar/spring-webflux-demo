@@ -20,7 +20,7 @@ public class DeepHealthChecker {
                 .stream()
                 .map(HealthChecker::isHealthy)
                 .collect(Collectors.toList()), objects -> Stream.of(objects)
-                .map(o -> (Boolean) o)
+                .map(Boolean.class::cast)
                 .reduce(Boolean::logicalAnd)
                 .orElse(false));
     }
