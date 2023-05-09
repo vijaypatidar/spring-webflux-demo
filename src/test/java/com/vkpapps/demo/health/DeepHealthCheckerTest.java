@@ -20,6 +20,14 @@ class DeepHealthCheckerTest {
     private HealthChecker healthCheckerMock1;
     private HealthChecker healthCheckerMock2;
 
+    static Stream<Arguments> getFailureCases() {
+        return Stream.of(
+                Arguments.of(true, false),
+                Arguments.of(false, true),
+                Arguments.of(false, false)
+        );
+    }
+
     @BeforeEach
     void setUp() {
         healthCheckerMock1 = mock(HealthChecker.class);
@@ -48,13 +56,5 @@ class DeepHealthCheckerTest {
                 .verifyComplete();
         verify(healthCheckerMock1).isHealthy();
         verify(healthCheckerMock2).isHealthy();
-    }
-
-    static Stream<Arguments> getFailureCases() {
-        return Stream.of(
-                Arguments.of(true, false),
-                Arguments.of(false, true),
-                Arguments.of(false, false)
-        );
     }
 }

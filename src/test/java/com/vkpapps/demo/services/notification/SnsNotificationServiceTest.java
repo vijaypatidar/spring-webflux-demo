@@ -59,7 +59,6 @@ class SnsNotificationServiceTest {
     @Test
     @SneakyThrows
     void sendNotification_SuccessWithoutCallingCreateTopic() {
-
         final CreateTopicResponse createTopicResponse = mock(CreateTopicResponse.class);
         when(createTopicResponse.topicArn()).thenReturn("mock.snsTopic");
         when(asyncClient.createTopic(any(CreateTopicRequest.class)))
@@ -79,7 +78,6 @@ class SnsNotificationServiceTest {
     @Test
     @SneakyThrows
     void sendNotification_FailedThrowsJsonProcessingException() {
-
         final CreateTopicResponse createTopicResponse = mock(CreateTopicResponse.class);
         when(createTopicResponse.topicArn()).thenReturn("mock.snsTopic");
         when(asyncClient.createTopic(any(CreateTopicRequest.class)))
