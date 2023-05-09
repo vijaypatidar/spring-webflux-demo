@@ -1,5 +1,6 @@
 package com.vkpapps.demo.controllers;
 
+import com.vkpapps.demo.exceptions.ServiceNotHealthyException;
 import com.vkpapps.demo.health.DeepHealthChecker;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -26,7 +27,7 @@ public class HealthController extends AbstractController {
         return deepHealthChecker.isHealthy().flatMap(healthy -> {
             if (Boolean.TRUE.equals(healthy))
                 return Mono.just(new Health("cool-webflux"));
-            else return Mono.error(new Exception("Service is not healthy"));
+            else return Mono.error(new ServiceNotHealthyException());
         });
     }
 

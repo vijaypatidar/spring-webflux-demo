@@ -1,6 +1,7 @@
 package com.vkpapps.demo.controllers.advices;
 
 import com.vkpapps.demo.exceptions.ResourceNotFoundException;
+import com.vkpapps.demo.exceptions.ServiceNotHealthyException;
 import com.vkpapps.demo.exceptions.ValidationException;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
@@ -42,6 +43,13 @@ public class GlobalControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ErrorResponse handleValidationExceptions(
             Exception ex) {
+        return buildErrorResponse(ex);
+    }
+
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(ServiceNotHealthyException.class)
+    public ErrorResponse handleServiceNotHealthyException(
+            ServiceNotHealthyException ex) {
         return buildErrorResponse(ex);
     }
 
