@@ -65,7 +65,7 @@ class UserServiceImplTest {
                 "test@example.com",
                 List.of(), false
         );
-        when(mockReactiveMongoTemplate.save(Mockito.eq(user))).thenReturn(Mono.just(user));
+        when(mockReactiveMongoTemplate.save(user)).thenReturn(Mono.just(user));
         Mono<User> userMono = userService.saveUser(user);
         StepVerifier.create(userMono)
                 .assertNext(actualUser -> {

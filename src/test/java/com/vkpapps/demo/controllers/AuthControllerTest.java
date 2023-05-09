@@ -20,6 +20,9 @@ import reactor.core.publisher.Mono;
 import java.util.Date;
 import java.util.UUID;
 
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+
 @SpringBootTest
 @AutoConfigureWebTestClient()
 class AuthControllerTest extends AbstractControllerTest {
@@ -37,7 +40,7 @@ class AuthControllerTest extends AbstractControllerTest {
 
         User user = getAdminUser();
 
-        Mockito.when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
 
         webClient.post()
                 .uri("/auth/login")
@@ -47,8 +50,8 @@ class AuthControllerTest extends AbstractControllerTest {
                 .expectStatus().isOk()
                 .expectBody()
                 .jsonPath("$.token").isNotEmpty()
-                .jsonPath("$.refreshToken").isEqualTo(null);
-        Mockito.verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
+                .jsonPath("$.refreshToken").isEmpty();
+        verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
 
     }
 
@@ -60,7 +63,7 @@ class AuthControllerTest extends AbstractControllerTest {
 
         User user = getAdminUser();
 
-        Mockito.when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
+        when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
 
         webClient.post()
                 .uri("/auth/login")
@@ -72,7 +75,7 @@ class AuthControllerTest extends AbstractControllerTest {
                 .jsonPath("$.success").isEqualTo(false)
                 .jsonPath("$.messages.[0]").isEqualTo("Invalid Credentials");
 
-        Mockito.verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
+        verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
     }
 
     @Test
@@ -83,8 +86,8 @@ class AuthControllerTest extends AbstractControllerTest {
         User user = getAdminUser();
         Otp otp = getOtp(requestDto.getUsername());
 
-        Mockito.when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
-        Mockito.when(otpService.sendOtp(user)).thenReturn(Mono.just(otp));
+        when(userService.getUsername(requestDto.getUsername())).thenReturn(Mono.just(user));
+        when(otpService.sendOtp(user)).thenReturn(Mono.just(otp));
 
         webClient.post()
                 .uri("/auth/send-otp")
@@ -95,8 +98,8 @@ class AuthControllerTest extends AbstractControllerTest {
                 .expectBody()
                 .jsonPath("$.otpRequestId").isEqualTo(otp.getId());
 
-        Mockito.verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
-        Mockito.verify(otpService, Mockito.times(1)).sendOtp(user);
+        verify(userService, Mockito.times(1)).getUsername("vijaypatidar");
+        verify(otpService, Mockito.times(1)).sendOtp(user);
 
     }
 
@@ -110,8 +113,8 @@ class AuthControllerTest extends AbstractControllerTest {
         requestDto.setOtpRequestId(otp.getId());
 
 
-        Mockito.when(otpService.verifyOtp(otp.getId(), 123456)).thenReturn(Mono.just(otp));
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(otpService.verifyOtp(otp.getId(), 123456)).thenReturn(Mono.just(otp));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.post()
                 .uri("/auth/verify-otp")
@@ -133,8 +136,8 @@ class AuthControllerTest extends AbstractControllerTest {
         requestDto.setOtpRequestId(otp.getId());
 
 
-        Mockito.when(otpService.verifyOtp(otp.getId(), 123457)).thenReturn(Mono.error(new ValidationException("Invalid otp.")));
-        Mockito.when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
+        when(otpService.verifyOtp(otp.getId(), 123457)).thenReturn(Mono.error(new ValidationException("Invalid otp.")));
+        when(userService.getUsername(user.getUsername())).thenReturn(Mono.just(user));
 
         webClient.post()
                 .uri("/auth/verify-otp")
