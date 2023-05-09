@@ -1,8 +1,9 @@
 package com.vkpapps.demo.dtos.auth;
 
+import lombok.Data;
+
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
-import lombok.Data;
 
 @Data
 public class OtpRequestDto {

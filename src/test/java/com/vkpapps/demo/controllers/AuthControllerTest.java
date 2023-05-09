@@ -8,8 +8,6 @@ import com.vkpapps.demo.models.Otp;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.otp.OtpService;
 import com.vkpapps.demo.services.user.UserService;
-import java.util.Date;
-import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -18,6 +16,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
 import reactor.core.publisher.Mono;
+
+import java.util.Date;
+import java.util.UUID;
 
 @SpringBootTest
 @AutoConfigureWebTestClient()

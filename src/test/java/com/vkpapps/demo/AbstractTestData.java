@@ -1,9 +1,10 @@
 package com.vkpapps.demo;
 
 import com.vkpapps.demo.models.User;
-import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.util.List;
 
 public abstract class AbstractTestData {
     @Autowired

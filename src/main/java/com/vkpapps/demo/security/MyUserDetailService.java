@@ -2,14 +2,15 @@ package com.vkpapps.demo.security;
 
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.user.UserService;
-import java.util.Collection;
-import java.util.stream.Collectors;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.util.Collection;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j

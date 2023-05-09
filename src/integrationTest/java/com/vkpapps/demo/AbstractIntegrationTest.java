@@ -1,6 +1,5 @@
 package com.vkpapps.demo;
 
-import java.util.Map;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWebTestClient;
@@ -12,6 +11,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.reactive.server.WebTestClient;
 import org.testcontainers.containers.GenericContainer;
 import org.testcontainers.utility.DockerImageName;
+
+import java.util.Map;
 
 @ExtendWith(SpringExtension.class)
 @SpringBootTest(
@@ -29,6 +30,8 @@ public abstract class AbstractIntegrationTest {
                     "MONGO_INITDB_ROOT_PASSWORD", "example"
             ))
             .withExposedPorts(27017);
+    @Autowired
+    protected WebTestClient webClient;
 
     @DynamicPropertySource
     static void redisProperties(DynamicPropertyRegistry registry) {
@@ -39,7 +42,4 @@ public abstract class AbstractIntegrationTest {
         registry.add("spring.data.mongodb.uri", () -> String.format("mongodb://root:example@%s:%s", mongodb.getHost(), mongodb.getFirstMappedPort()));
         registry.add("spring.data.mongodb.database", () -> "digital");
     }
-
-    @Autowired
-    protected WebTestClient webClient;
 }

@@ -1,8 +1,8 @@
 package com.vkpapps.demo.exceptions;
 
+import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
-import javax.validation.constraints.NotNull;
 
 public class ValidationException extends Exception {
     private final List<String> messages;

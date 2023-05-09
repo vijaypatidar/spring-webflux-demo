@@ -1,7 +1,6 @@
 package com.vkpapps.demo.services.user;
 
 import com.vkpapps.demo.models.User;
-import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,6 +13,8 @@ import org.springframework.data.redis.core.ReactiveValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
+
+import java.util.List;
 
 @ExtendWith(MockitoExtension.class)
 class UserServiceImplTest {

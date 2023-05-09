@@ -6,16 +6,17 @@ import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.AbstractMongoService;
 import com.vkpapps.demo.services.notification.Notification;
 import com.vkpapps.demo.services.notification.NotificationService;
-import java.security.SecureRandom;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
+
+import java.security.SecureRandom;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Slf4j

@@ -3,7 +3,6 @@ package com.vkpapps.demo.services.user;
 import com.vkpapps.demo.exceptions.ResourceNotFoundException;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.AbstractMongoService;
-import javax.validation.constraints.NotNull;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +14,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.validation.constraints.NotNull;
 
 @Service
 @RequiredArgsConstructor()

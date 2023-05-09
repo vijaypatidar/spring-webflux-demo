@@ -8,15 +8,16 @@ import com.vkpapps.demo.models.Otp;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.otp.OtpService;
 import com.vkpapps.demo.services.user.UserService;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.testcontainers.junit.jupiter.Testcontainers;
+
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
 
 
 @Testcontainers
@@ -86,6 +87,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
                 .jsonPath("$.otpRequestId").isNotEmpty();
 
     }
+
     @Test
     void testVerifyOtpSuccess() {
         OtpRequestDto requestDto = new OtpRequestDto();

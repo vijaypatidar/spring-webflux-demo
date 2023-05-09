@@ -1,8 +1,10 @@
 # Spring Webflux
+
 [![Build](https://github.com/vijaypatidar/cool-spring-webflux/actions/workflows/gradle.yml/badge.svg)](https://github.com/vijaypatidar/cool-spring-webflux/actions/workflows/gradle.yml)
+
 ## Swagger UI
 
-http://localhost:8080/swagger-ui.html
+https://localhost:8080/swagger-ui.html
 
 ## Setup SSL to allow traffic on https protocol instead of http
 

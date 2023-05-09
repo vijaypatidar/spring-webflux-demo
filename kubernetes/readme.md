@@ -1,6 +1,7 @@
 # Setup Kubernetes for managing deployment of this project
 
 1. Create namespace
+
 ```yml
 apiVersion: v1
 kind: Namespace
@@ -10,6 +11,7 @@ metadata:
 ```
 
 2. Create configMap
+
 ```yml
 apiVersion: v1
 kind: ConfigMap
@@ -20,7 +22,9 @@ data:
   MONGO_URI: mongodb://root:example@127.0.0.1:27017
   MONGO_DB_NAME: digital
 ```
+
 3. Create deployment
+
 ```yml
 apiVersion: apps/v1
 kind: Deployment

@@ -2,10 +2,6 @@ package com.vkpapps.demo.controllers.advices;
 
 import com.vkpapps.demo.exceptions.ResourceNotFoundException;
 import com.vkpapps.demo.exceptions.ValidationException;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,6 +13,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.bind.support.WebExchangeBindException;
+
+import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 @RestControllerAdvice
 @Slf4j
@@ -43,6 +44,7 @@ public class GlobalControllerExceptionHandler {
             Exception ex) {
         return buildErrorResponse(ex);
     }
+
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(ResourceNotFoundException.class)
     public ErrorResponse handleResourceNotFoundException(

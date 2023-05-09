@@ -1,6 +1,5 @@
 package com.vkpapps.demo.configs.aws;
 
-import com.vkpapps.demo.dtos.auth.OtpRequestDto;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

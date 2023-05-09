@@ -2,15 +2,9 @@ package com.vkpapps.demo.controllers;
 
 import com.vkpapps.demo.dtos.UserDto;
 import com.vkpapps.demo.exporters.Exporter;
-import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.ealsticsearch.ElasticSearchService;
 import com.vkpapps.demo.services.user.UserService;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
-import java.security.Principal;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import javax.validation.ValidationException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.NoSuchBeanDefinitionException;
@@ -21,6 +15,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import javax.validation.ValidationException;
+import java.security.Principal;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/users")
