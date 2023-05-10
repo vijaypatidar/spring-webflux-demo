@@ -2,13 +2,13 @@ package com.vkpapps.demo.services.user;
 
 import com.vkpapps.demo.models.User;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.Spy;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.redis.core.ReactiveValueOperations;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,7 +20,7 @@ import java.util.List;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(MockitoExtension.class)
+@SpringBootTest
 class UserServiceImplTest {
     @Mock
     ReactiveValueOperations<String, User> mockRedisTemplate;
@@ -31,6 +31,10 @@ class UserServiceImplTest {
     @InjectMocks
     UserServiceImpl userService;
 
+    @BeforeEach
+    void setUp() {
+        userService.setMongoTemplate(mockReactiveMongoTemplate);
+    }
 
     @Test
     void testGetUsername() {

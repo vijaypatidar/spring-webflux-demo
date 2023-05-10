@@ -3,10 +3,8 @@ package com.vkpapps.demo.services.user;
 import com.vkpapps.demo.exceptions.ResourceNotFoundException;
 import com.vkpapps.demo.models.User;
 import com.vkpapps.demo.services.AbstractMongoService;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.ReactiveValueOperations;
@@ -25,8 +23,6 @@ public class UserServiceImpl extends AbstractMongoService implements UserService
     private final PasswordEncoder passwordEncoder;
     @NotNull
     private final ReactiveValueOperations<String, User> redisTemplate;
-    @NotNull
-    private final ReactiveMongoTemplate mongoTemplate;
 
     @Override
     public Mono<User> getUsername(String userId) {
@@ -45,10 +41,5 @@ public class UserServiceImpl extends AbstractMongoService implements UserService
     public Mono<User> saveUser(User user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         return this.getMongoTemplate().save(user);
-    }
-
-    @Override
-    protected @NonNull ReactiveMongoTemplate getMongoTemplate() {
-        return mongoTemplate;
     }
 }

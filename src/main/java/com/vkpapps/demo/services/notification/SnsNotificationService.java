@@ -2,6 +2,7 @@ package com.vkpapps.demo.services.notification;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -14,7 +15,9 @@ import software.amazon.awssdk.services.sns.model.PublishRequest;
 @RequiredArgsConstructor
 @Slf4j
 public class SnsNotificationService implements NotificationService {
+    @NonNull
     private final SnsAsyncClient snsAsyncClient;
+    @NonNull
     private final ObjectMapper objectMapper;
     private String notificationTopiArn = null;
 
@@ -42,7 +45,6 @@ public class SnsNotificationService implements NotificationService {
                         SnsNotificationService.this.notificationTopiArn = topic.topicArn();
                         return Mono.just(topic.topicArn());
                     });
-
         } else {
             return Mono.just(this.notificationTopiArn);
         }

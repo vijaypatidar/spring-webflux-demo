@@ -1,6 +1,7 @@
 package com.vkpapps.demo.services.ealsticsearch;
 
 import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.Result;
 import co.elastic.clients.elasticsearch.core.IndexRequest;
 import co.elastic.clients.elasticsearch.core.IndexResponse;
 import co.elastic.clients.elasticsearch.core.SearchRequest;
@@ -10,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -20,13 +22,13 @@ import java.util.stream.Collectors;
 public class ElasticSearchService {
     private final ElasticsearchClient client;
 
-    public <T> String index(IndexRequest<T> userIndexRequest) {
+    public <T> Result index(IndexRequest<T> userIndexRequest) throws IOException {
         try {
             IndexResponse index = client.index(userIndexRequest);
-            return index.result().jsonValue();
+            return index.result();
         } catch (Exception e) {
             log.error("Elasticsearch index operation failed.", e);
-            return "failed";
+            throw e;
         }
     }
 

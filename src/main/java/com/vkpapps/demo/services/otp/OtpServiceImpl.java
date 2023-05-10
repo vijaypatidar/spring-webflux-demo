@@ -9,7 +9,6 @@ import com.vkpapps.demo.services.notification.NotificationService;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.mongodb.core.ReactiveMongoTemplate;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
@@ -24,8 +23,6 @@ import java.util.UUID;
 public class OtpServiceImpl extends AbstractMongoService implements OtpService {
     @NonNull
     private final NotificationService notificationService;
-    @NonNull
-    private final ReactiveMongoTemplate mongoTemplate;
     @NonNull
     SecureRandom random = new SecureRandom();
 
@@ -61,10 +58,5 @@ public class OtpServiceImpl extends AbstractMongoService implements OtpService {
                         return getMongoTemplate().remove(otp).thenReturn(otp);
                     }
                 });
-    }
-
-    @Override
-    protected @NonNull ReactiveMongoTemplate getMongoTemplate() {
-        return this.mongoTemplate;
     }
 }
