@@ -6,7 +6,7 @@
 
 https://localhost:8080/swagger-ui.html
 
-## Setup SSL to allow traffic on https protocol instead of http
+## Configure SSL to enable secure communication by allowing traffic on the HTTPS protocol instead of HTTP.
 
 1. Generate certificate(*.jks file)
 
