@@ -2,9 +2,15 @@
 
 [![Build](https://github.com/vijaypatidar/cool-spring-webflux/actions/workflows/gradle.yml/badge.svg)](https://github.com/vijaypatidar/cool-spring-webflux/actions/workflows/gradle.yml)
 
+## Run with New Relic Java Agent
+
+```shell
+java -javaagent:./opt/newrelic/newrelic.jar -jar ./build/libs/demo-0.0.1-SNAPSHOT.jar
+```
+
 ## Swagger UI
 
-https://localhost:8080/swagger-ui.html
+https://localhost/swagger-ui.html
 
 ## Configure SSL to enable secure communication by allowing traffic on the HTTPS protocol instead of HTTP.
 

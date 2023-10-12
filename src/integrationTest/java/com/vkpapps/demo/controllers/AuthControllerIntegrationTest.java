@@ -22,6 +22,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 @Testcontainers
 public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
 
+  public static final String TEST_USERNAME = "vijaypatidar";
   @Autowired
   UserService userService;
 
@@ -31,7 +32,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
   @Test
   void testSuccessLoginWithUsernameAndPassword() {
     UsernamePasswordAuthRequestDto requestDto = new UsernamePasswordAuthRequestDto();
-    requestDto.setUsername("vijaypatidar");
+    requestDto.setUsername(TEST_USERNAME);
     requestDto.setPassword("12345678");
     User user = getAdminUser();
     userService.saveUser(user).block();
@@ -50,7 +51,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
   @Test
   void testFailedLoginWithUsernameAndPassword() {
     UsernamePasswordAuthRequestDto requestDto = new UsernamePasswordAuthRequestDto();
-    requestDto.setUsername("vijaypatidar");
+    requestDto.setUsername(TEST_USERNAME);
     requestDto.setPassword("12345677"); //invalid password
 
     User user = getAdminUser();
@@ -71,7 +72,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
   @Test
   void testRequestOtpForLogin() {
     OtpRequestDto requestDto = new OtpRequestDto();
-    requestDto.setUsername("vijaypatidar");
+    requestDto.setUsername(TEST_USERNAME);
 
     User user = getAdminUser();
     userService.saveUser(user).block();
@@ -90,7 +91,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
   @Test
   void testVerifyOtpSuccess() {
     OtpRequestDto requestDto = new OtpRequestDto();
-    requestDto.setUsername("vijaypatidar");
+    requestDto.setUsername(TEST_USERNAME);
 
     User user = getAdminUser();
     userService.saveUser(user).block();
@@ -141,7 +142,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
   }
 
   protected User getAdminUser() {
-    return new User("vijaypatidar",
+    return new User(TEST_USERNAME,
         "12345678",
         "vijay@example.com",
         List.of("ROLE_ADMIN"),
@@ -150,7 +151,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
   }
 
   protected User getNormalUser() {
-    return new User("vijaypatidar",
+    return new User(TEST_USERNAME,
         "12345678",
         "vijay@example.com",
         List.of("ROLE_USER"),
