@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 @Slf4j
 @Scope(value = ConfigurableBeanFactory.SCOPE_PROTOTYPE)
 public class TXTExporter extends CSVExporter {
-    @Override
-    protected String getExtension() {
-        return "txt";
-    }
+  @Override
+  protected String getExtension() {
+    return "txt";
+  }
 }

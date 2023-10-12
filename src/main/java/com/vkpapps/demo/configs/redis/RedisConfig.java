@@ -12,23 +12,26 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class RedisConfig {
-    @Bean
-    public ReactiveRedisTemplate<String, User> reactiveRedisTemplate(
-            ReactiveRedisConnectionFactory factory) {
-        return buildTemplate(factory, User.class);
-    }
+  @Bean
+  public ReactiveRedisTemplate<String, User> reactiveRedisTemplate(
+      ReactiveRedisConnectionFactory factory) {
+    return buildTemplate(factory, User.class);
+  }
 
-    @Bean
-    public ReactiveValueOperations<String, User> userReactiveValueOperations(
-            ReactiveRedisTemplate<String, User> template) {
-        return template.opsForValue();
-    }
+  @Bean
+  public ReactiveValueOperations<String, User> userReactiveValueOperations(
+      ReactiveRedisTemplate<String, User> template) {
+    return template.opsForValue();
+  }
 
-    private <T> ReactiveRedisTemplate<String, T> buildTemplate(ReactiveRedisConnectionFactory factory, Class<T> tClass) {
-        var keySerializer = new StringRedisSerializer();
-        Jackson2JsonRedisSerializer<T> valueSerializer = new Jackson2JsonRedisSerializer<>(tClass);
-        RedisSerializationContext.RedisSerializationContextBuilder<String, T> builder = RedisSerializationContext.newSerializationContext(keySerializer);
-        RedisSerializationContext<String, T> context = builder.value(valueSerializer).build();
-        return new ReactiveRedisTemplate<>(factory, context);
-    }
+  private <T> ReactiveRedisTemplate<String, T> buildTemplate(
+      ReactiveRedisConnectionFactory factory,
+      Class<T> typeClass) {
+    var keySerializer = new StringRedisSerializer();
+    Jackson2JsonRedisSerializer<T> valueSerializer = new Jackson2JsonRedisSerializer<>(typeClass);
+    RedisSerializationContext.RedisSerializationContextBuilder<String, T> builder =
+        RedisSerializationContext.newSerializationContext(keySerializer);
+    RedisSerializationContext<String, T> context = builder.value(valueSerializer).build();
+    return new ReactiveRedisTemplate<>(factory, context);
+  }
 }

@@ -9,15 +9,15 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
 public abstract class AbstractControllerTest extends AbstractTestData {
-    @Autowired
-    protected WebTestClient webClient;
-    @Autowired
-    protected ObjectMapper objectMapper;
+  @Autowired
+  protected WebTestClient webClient;
+  @Autowired
+  protected ObjectMapper objectMapper;
 
-    @SpyBean
-    protected JwtTokenProvider tokenProvider;
+  @SpyBean
+  protected JwtTokenProvider tokenProvider;
 
-    protected String getJwtToken(User user) {
-        return tokenProvider.createToken(user);
-    }
+  protected String getJwtToken(User user) {
+    return tokenProvider.createToken(user);
+  }
 }

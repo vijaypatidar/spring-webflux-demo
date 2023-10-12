@@ -18,22 +18,24 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 public class HealthController extends AbstractController {
 
-    @NonNull
-    private final DeepHealthChecker deepHealthChecker;
+  @NonNull
+  private final DeepHealthChecker deepHealthChecker;
 
-    @GetMapping
-    public Mono<Health> check() {
-        log.info("Health check");
-        return deepHealthChecker.isHealthy().flatMap(healthy -> {
-            if (Boolean.TRUE.equals(healthy))
-                return Mono.just(new Health("cool-webflux"));
-            else return Mono.error(new ServiceNotHealthyException());
-        });
-    }
+  @GetMapping
+  public Mono<Health> check() {
+    log.info("Health check");
+    return deepHealthChecker.isHealthy().flatMap(healthy -> {
+      if (Boolean.TRUE.equals(healthy)) {
+        return Mono.just(new Health("cool-webflux"));
+      } else {
+        return Mono.error(new ServiceNotHealthyException());
+      }
+    });
+  }
 
-    @Data
-    @AllArgsConstructor
-    static class Health {
-        private String serverId;
-    }
+  @Data
+  @AllArgsConstructor
+  static class Health {
+    private String serverId;
+  }
 }

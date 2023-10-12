@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.0"
     id "jacoco"
+    id 'checkstyle'
 }
 
 group = 'com.vkpapps'
@@ -83,6 +84,13 @@ sonarqube {
         property "sonar.login", "11357d7274f8dab3c1816e43ccbac6273a64a54e"
         property "sonar.coverage.jacoco.xmlReportPath", "${buildDir}/reports/jacoco.xml"
     }
+}
+
+checkstyle {
+    ignoreFailures = false
+    maxErrors = 0
+    toolVersion = "10.11.0"
+    configFile = rootProject.file("checkstyle/checkstyle.xml")
 }
 
 sourceSets {

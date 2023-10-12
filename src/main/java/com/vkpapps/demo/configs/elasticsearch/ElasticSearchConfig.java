@@ -10,7 +10,7 @@ import org.springframework.context.annotation.Configuration;
 @Data
 @NoArgsConstructor
 public class ElasticSearchConfig {
-    private String hostname;
-    private String username;
-    private String password;
+  private String hostname;
+  private String username;
+  private String password;
 }

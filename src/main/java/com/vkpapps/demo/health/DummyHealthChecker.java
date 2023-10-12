@@ -5,8 +5,8 @@ import reactor.core.publisher.Mono;
 
 @Service
 public class DummyHealthChecker implements HealthChecker {
-    @Override
-    public Mono<Boolean> isHealthy() {
-        return Mono.just(true);
-    }
+  @Override
+  public Mono<Boolean> isHealthy() {
+    return Mono.just(true);
+  }
 }
