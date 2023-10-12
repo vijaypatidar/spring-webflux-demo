@@ -51,7 +51,7 @@ public class AuthControllerIntegrationTest extends AbstractIntegrationTest {
   void testFailedLoginWithUsernameAndPassword() {
     UsernamePasswordAuthRequestDto requestDto = new UsernamePasswordAuthRequestDto();
     requestDto.setUsername("vijaypatidar");
-    requestDto.setPassword("12345677");//invalid password
+    requestDto.setPassword("12345677"); //invalid password
 
     User user = getAdminUser();
     userService.saveUser(user).block();

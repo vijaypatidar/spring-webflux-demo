@@ -58,7 +58,7 @@ class AuthControllerTest extends AbstractControllerTest {
   void testFailedLoginWithUsernameAndPassword() {
     UsernamePasswordAuthRequestDto requestDto = new UsernamePasswordAuthRequestDto();
     requestDto.setUsername("vijaypatidar");
-    requestDto.setPassword("12345677");//invalid password
+    requestDto.setPassword("12345677"); //invalid password
 
     User user = getAdminUser();
 
