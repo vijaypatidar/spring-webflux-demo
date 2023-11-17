@@ -1,13 +1,12 @@
 package com.vkpapps.demo.services.notification;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @Builder
 public class Notification {
-    private List<String> emails;
-    private String body;
+  private List<String> emails;
+  private String body;
 }

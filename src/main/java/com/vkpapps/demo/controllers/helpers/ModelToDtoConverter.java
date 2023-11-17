@@ -8,13 +8,13 @@ import org.modelmapper.ModelMapper;
 import reactor.core.publisher.Mono;
 
 public interface ModelToDtoConverter {
-    default Mono<UserDto> toDto(User user) {
-        return Mono.just(getModelMapper().map(user, UserDto.class));
-    }
+  default Mono<UserDto> toDto(User user) {
+    return Mono.just(getModelMapper().map(user, UserDto.class));
+  }
 
-    default Mono<OtpResponseDto> toDto(Otp otp) {
-        return Mono.just(new OtpResponseDto(otp.getId()));
-    }
+  default Mono<OtpResponseDto> toDto(Otp otp) {
+    return Mono.just(new OtpResponseDto(otp.getId()));
+  }
 
-    ModelMapper getModelMapper();
+  ModelMapper getModelMapper();
 }

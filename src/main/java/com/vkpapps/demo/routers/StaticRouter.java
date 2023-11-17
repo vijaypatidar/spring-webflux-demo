@@ -9,8 +9,8 @@ import org.springframework.web.reactive.function.server.ServerResponse;
 
 @Component
 public class StaticRouter {
-    @Bean
-    RouterFunction<ServerResponse> staticResourceRouter() {
-        return RouterFunctions.resources("/**", new ClassPathResource("static/"));
-    }
+  @Bean
+  RouterFunction<ServerResponse> staticResourceRouter() {
+    return RouterFunctions.resources("/**", new ClassPathResource("static/"));
+  }
 }

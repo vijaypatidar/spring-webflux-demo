@@ -16,33 +16,33 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class ElasticsearchClientConfig {
-    private static RestClientBuilder getRestClientBuilder(ElasticSearchConfig config) {
-        RestClientBuilder builder = RestClient.builder(
-                new HttpHost(config.getHostname(), 9200));
-        if (config.getUsername() != null && config.getPassword() != null) {
-            final CredentialsProvider credentialsProvider =
-                    new BasicCredentialsProvider();
-            credentialsProvider.setCredentials(AuthScope.ANY,
-                    new UsernamePasswordCredentials(config.getUsername(), config.getPassword()));
+  private static RestClientBuilder getRestClientBuilder(ElasticSearchConfig config) {
+    RestClientBuilder builder = RestClient.builder(
+        new HttpHost(config.getHostname(), 9200));
+    if (config.getUsername() != null && config.getPassword() != null) {
+      final CredentialsProvider credentialsProvider =
+          new BasicCredentialsProvider();
+      credentialsProvider.setCredentials(AuthScope.ANY,
+          new UsernamePasswordCredentials(config.getUsername(), config.getPassword()));
 
-            builder.setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
-                    .setDefaultCredentialsProvider(credentialsProvider));
-        }
-
-        return builder;
+      builder.setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
+          .setDefaultCredentialsProvider(credentialsProvider));
     }
 
-    @Bean
-    public ElasticsearchClient getElasticsearchClient(ElasticSearchConfig config) {
+    return builder;
+  }
 
-        var builder = getRestClientBuilder(config);
-        var restClient = builder.build();
+  @Bean
+  public ElasticsearchClient getElasticsearchClient(ElasticSearchConfig config) {
 
-        // Create the transport with a Jackson mapper
-        ElasticsearchTransport transport = new RestClientTransport(
-                restClient, new JacksonJsonpMapper());
+    var builder = getRestClientBuilder(config);
+    var restClient = builder.build();
 
-        // And create the API client
-        return new ElasticsearchClient(transport);
-    }
+    // Create the transport with a Jackson mapper
+    ElasticsearchTransport transport = new RestClientTransport(
+        restClient, new JacksonJsonpMapper());
+
+    // And create the API client
+    return new ElasticsearchClient(transport);
+  }
 }

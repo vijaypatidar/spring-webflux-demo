@@ -4,6 +4,7 @@ plugins {
     id 'java'
     id "org.sonarqube" version "3.0"
     id "jacoco"
+    id 'checkstyle'
 }
 
 group = 'com.vkpapps'
@@ -85,13 +86,19 @@ sonarqube {
     }
 }
 
+checkstyle {
+    ignoreFailures = false
+    maxErrors = 0
+    toolVersion = "10.11.0"
+    configFile = rootProject.file("checkstyle/checkstyle.xml")
+}
+
 sourceSets {
     integrationTest {
         java.srcDir file("src/integrationTest/java")
         resources.srcDir file("src/integrationTest/resources")
         runtimeClasspath += sourceSets.main.runtimeClasspath + sourceSets.test.runtimeClasspath
         compileClasspath += sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
-
     }
 }
 

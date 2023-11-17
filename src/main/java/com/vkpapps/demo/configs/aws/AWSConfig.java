@@ -13,20 +13,20 @@ import software.amazon.awssdk.services.sns.SnsAsyncClient;
 @Profile(value = "!test")
 public class AWSConfig {
 
-    @Value("${aws.region:ap-south-1}")
-    private String region;
+  @Value("${aws.region:ap-south-1}")
+  private String region;
 
-    @Bean
-    public AwsCredentialsProvider awsCredentialProvider() {
-        return DefaultCredentialsProvider.create();
-    }
+  @Bean
+  public AwsCredentialsProvider awsCredentialProvider() {
+    return DefaultCredentialsProvider.create();
+  }
 
-    @Bean
-    public SnsAsyncClient snsClient(AwsCredentialsProvider awsCredentialsProvider) {
-        return SnsAsyncClient.builder()
-                .region(Region.of(region))
-                .credentialsProvider(awsCredentialsProvider)
-                .build();
-    }
+  @Bean
+  public SnsAsyncClient snsClient(AwsCredentialsProvider awsCredentialsProvider) {
+    return SnsAsyncClient.builder()
+        .region(Region.of(region))
+        .credentialsProvider(awsCredentialsProvider)
+        .build();
+  }
 
 }

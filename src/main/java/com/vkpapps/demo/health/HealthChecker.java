@@ -7,5 +7,5 @@ import reactor.core.publisher.Mono;
  * aws service on which this service depends to function properly.
  */
 public interface HealthChecker {
-    Mono<Boolean> isHealthy();
+  Mono<Boolean> isHealthy();
 }

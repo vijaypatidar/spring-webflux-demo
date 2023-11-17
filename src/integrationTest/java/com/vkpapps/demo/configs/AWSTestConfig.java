@@ -15,22 +15,24 @@ import software.amazon.awssdk.services.sns.SnsAsyncClient;
 @Profile("test")
 public class AWSTestConfig {
 
-    @Value("${aws.region:ap-south-1}")
-    private String region;
+  @Value("${aws.region:ap-south-1}")
+  private String region;
 
-    @Bean
-    public SnsAsyncClient snsClient(AwsCredentialsProvider awsCredentialsProvider, LocalStackContainer localStackContainer) {
-        return SnsAsyncClient.builder()
-                .region(Region.of(region))
-                .endpointOverride(localStackContainer.getEndpointOverride(LocalStackContainer.Service.SNS))
-                .credentialsProvider(awsCredentialsProvider)
-                .build();
-    }
+  @Bean
+  public SnsAsyncClient snsClient(AwsCredentialsProvider awsCredentialsProvider,
+                                  LocalStackContainer localStackContainer) {
+    return SnsAsyncClient.builder()
+        .region(Region.of(region))
+        .endpointOverride(localStackContainer.getEndpointOverride(LocalStackContainer.Service.SNS))
+        .credentialsProvider(awsCredentialsProvider)
+        .build();
+  }
 
-    @Bean
-    public AwsCredentialsProvider awsCredentialProvider(LocalStackContainer localStack) {
-        return StaticCredentialsProvider.create(AwsBasicCredentials.create(localStack.getAccessKey(), localStack.getSecretKey()));
-    }
+  @Bean
+  public AwsCredentialsProvider awsCredentialProvider(LocalStackContainer localStack) {
+    return StaticCredentialsProvider.create(
+        AwsBasicCredentials.create(localStack.getAccessKey(), localStack.getSecretKey()));
+  }
 
 
 }

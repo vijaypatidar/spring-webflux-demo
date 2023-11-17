@@ -9,12 +9,12 @@ import org.springframework.boot.test.context.SpringBootTest;
 @SpringBootTest
 class CoolSpringWebfluxApplicationTests {
 
-    @Autowired
-    UserController userController;
+  @Autowired
+  UserController userController;
 
-    @Test
-    void contextLoads() {
-        Assertions.assertNotNull(userController);
-    }
+  @Test
+  void contextLoads() {
+    Assertions.assertNotNull(userController);
+  }
 
 }
