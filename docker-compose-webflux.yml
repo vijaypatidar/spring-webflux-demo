@@ -1,0 +1,9 @@
+version: "3.0"
+
+services:
+  elasticsearch:
+    container_name: elasticsearch
+    platform: linux/x86_64
+    image: vijaypatidar31/webflux:0.0.1
+    ports:
+      - "443:443"

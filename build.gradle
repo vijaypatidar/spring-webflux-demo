@@ -5,10 +5,11 @@ plugins {
     id "org.sonarqube" version "3.0"
     id "jacoco"
     id 'checkstyle'
+    id 'com.google.cloud.tools.jib' version '3.1.1'
 }
 
 group = 'com.vkpapps'
-version = '0.0.1-SNAPSHOT'
+version = '0.0.1'
 sourceCompatibility = '11'
 
 configurations {
@@ -117,5 +118,19 @@ tasks.register('integrationTest', Test) {
     }
 }
 
+jib {
+    from {
+        image = "amazoncorretto:11"
+    }
+    to {
+        image = "docker.io/vijaypatidar31/webflux"
+        tags = ["latest", version]
+    }
+    container {
+        mainClass = "com.vkpapps.demo.CoolSpringWebfluxApplication"
+        jvmFlags = []
+        ports = ["443"]
+    }
+}
 check.dependsOn integrationTest
 check.dependsOn jacocoTestReport
