@@ -54,3 +54,8 @@ sourceSets {
     }
 }
 ```
+
+## Build docker image with JIB 
+
+```shell
+  ./gradlew jibDockerBuild
