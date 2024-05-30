@@ -133,4 +133,4 @@ jib {
     }
 }
 check.dependsOn integrationTest
-check.dependsOn jacocoTestReport
+test.finalizedBy jacocoTestReport
