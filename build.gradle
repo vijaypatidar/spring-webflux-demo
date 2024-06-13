@@ -40,6 +40,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb-reactive:2.7.5'
     implementation 'org.modelmapper:modelmapper:3.1.0'
     implementation 'org.apache.poi:poi:5.2.2'
+    implementation 'io.github.resilience4j:resilience4j-reactor:1.7.1' // or the latest version
+    implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1' // or the latest version
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'

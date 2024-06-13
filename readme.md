@@ -4,7 +4,7 @@
 
 ## Swagger UI
 
-https://localhost:8080/swagger-ui.html
+https://localhost/swagger-ui.html
 
 ## Configure SSL to enable secure communication by allowing traffic on the HTTPS protocol instead of HTTP.
 
