@@ -6,6 +6,7 @@ plugins {
     id "jacoco"
     id 'checkstyle'
     id 'com.google.cloud.tools.jib' version '3.1.1'
+    id 'com.google.protobuf' version '0.9.4'
 }
 
 group = 'com.vkpapps'
@@ -41,6 +42,8 @@ dependencies {
     implementation 'org.modelmapper:modelmapper:3.1.0'
     implementation 'org.apache.poi:poi:5.2.2'
 
+    implementation 'com.google.protobuf:protobuf-java:3.21.12'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
@@ -55,6 +58,12 @@ dependencies {
     testImplementation "org.testcontainers:localstack:1.17.6"
     testImplementation "com.amazonaws:aws-java-sdk-sns:1.11.914"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.21.12'
+    }
 }
 
 tasks.test {
@@ -102,7 +111,6 @@ sourceSets {
         compileClasspath += sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
     }
 }
-
 tasks.register('integrationTest', Test) {
     description = 'Runs integration tests.'
     group = 'verification'
