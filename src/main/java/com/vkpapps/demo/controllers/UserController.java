@@ -4,6 +4,7 @@ import com.vkpapps.demo.dtos.UserDto;
 import com.vkpapps.demo.exporters.Exporter;
 import com.vkpapps.demo.services.ealsticsearch.ElasticSearchService;
 import com.vkpapps.demo.services.user.UserService;
+import com.vkpapps.protos.Person;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import java.security.Principal;
 import java.util.List;
@@ -34,8 +35,12 @@ public class UserController extends AbstractController {
 
   @GetMapping
   public Mono<UserDto> getCurrentLogged(Principal principal) {
+    Person person = Person.newBuilder().build();
+
     return userService.getUsername(principal.getName()).flatMap(this::toDto);
   }
+
+
 
   @GetMapping("/{username}")
   @PreAuthorize("hasRole('ADMIN')")
