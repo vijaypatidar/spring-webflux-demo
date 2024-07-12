@@ -16,3 +16,24 @@ elastic:
 #  username: elastic
 #  password: changeme
 
+resilience4j:
+  ratelimiter:
+    instances:
+      userService:
+        limitForPeriod: 2
+        limitRefreshPeriod: 10000
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: '*'
+  endpoint:
+    health:
+      show-details: always
+
+  health:
+    circuitbreakers:
+      enabled: true
+    ratelimiters:
+      enabled: true

@@ -7,7 +7,7 @@ import lombok.Data;
 @Data
 public class UsernamePasswordAuthRequestDto {
   @NotBlank
-  @Size(min = 8, max = 12)
+  @Size(min = 5, max = 12)
   private String username;
   @NotBlank
   @Size(min = 8, max = 16, message = "Password must contains 8 chars")
