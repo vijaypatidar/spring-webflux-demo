@@ -6,6 +6,7 @@ plugins {
     id "jacoco"
     id 'checkstyle'
     id 'com.google.cloud.tools.jib' version '3.1.1'
+    id 'com.google.protobuf' version '0.9.4'
 }
 
 group = 'com.vkpapps'
@@ -44,6 +45,8 @@ dependencies {
     implementation 'io.github.resilience4j:resilience4j-spring-boot2:1.7.1' // or the latest version
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
+    implementation 'com.google.protobuf:protobuf-java:3.21.12'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
@@ -53,11 +56,18 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.springframework.security:spring-security-test'
     testImplementation 'io.projectreactor:reactor-test'
-    testImplementation "org.testcontainers:testcontainers:1.17.6"
+    testImplementation "org.testcontainers:testcontainers:1.18.0"
     testImplementation "org.testcontainers:junit-jupiter:1.17.6"
     testImplementation "org.testcontainers:localstack:1.17.6"
     testImplementation "com.amazonaws:aws-java-sdk-sns:1.11.914"
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+}
+
+protobuf {
+    protoc {
+        artifact = 'com.google.protobuf:protoc:3.21.12'
+    }
+
 }
 
 tasks.test {
@@ -96,6 +106,7 @@ checkstyle {
     toolVersion = "10.11.0"
     configFile = rootProject.file("checkstyle/checkstyle.xml")
 }
+checkstyleMain.exclude("com/vkpapps/protos/*.java")
 
 sourceSets {
     integrationTest {
@@ -105,7 +116,6 @@ sourceSets {
         compileClasspath += sourceSets.main.compileClasspath + sourceSets.test.compileClasspath
     }
 }
-
 tasks.register('integrationTest', Test) {
     description = 'Runs integration tests.'
     group = 'verification'
