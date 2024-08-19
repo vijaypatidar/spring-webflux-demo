@@ -55,6 +55,13 @@ services:
     volumes:
       - redis:/data
 
+  jaeger:
+    image: jaegertracing/all-in-one:1.35
+    ports:
+      - "16686:16686" # the jaeger UI
+      - "4317:4317" # the OpenTelemetry collector grpc
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
 volumes:
   redis:
     driver: local
