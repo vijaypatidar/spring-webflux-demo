@@ -16,3 +16,18 @@ elastic:
 #  username: elastic
 #  password: changeme
 
+otel:
+  traces:
+    exporter: otlp
+  exporter:
+    otlp:
+      endpoint: http://localhost:4317
+      protocol: grpc
+  propagators:
+    - tracecontext
+  resource:
+    attributes:
+      deployment.environment: dev
+      service:
+        name: webflux
+        namespace: spring
