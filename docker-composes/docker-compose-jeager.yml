@@ -10,6 +10,7 @@ services:
     ports:
       - "14250:14250"  # OTLP gRPC
       - "14268:14268"  # Jaeger HTTP Thrift
+      - "4317:4317"    # OTLP gRPC for traces
       - "4318:4318"    # OTLP HTTP for traces
     depends_on:
       - elasticsearch
